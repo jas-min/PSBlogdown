@@ -62,7 +62,7 @@ mental.illness %&amp;gt;%
   geom_point(mapping = aes(x = signs_of_mental_illness, y = count, color = race)) &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-26-exploration-of-mental-illness-and-fatal-police-shootings.en_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;
 Table 1.&lt;/p&gt;
-&lt;iframe seamless src=&#34;../d1/index.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
+&lt;iframe seamless src=&#34;../d1.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
 &lt;/iframe&gt;
 &lt;/div&gt;
 </description>
@@ -97,7 +97,7 @@ data.head()
 &lt;p&gt;Demo:&lt;/p&gt;
 
 
-&lt;div id=&#34;chart-498352617&#34; class=&#34;chart pb-3&#34; style=&#34;max-width: 100%; margin: auto;&#34;&gt;&lt;/div&gt;
+&lt;div id=&#34;chart-324891756&#34; class=&#34;chart pb-3&#34; style=&#34;max-width: 100%; margin: auto;&#34;&gt;&lt;/div&gt;
 &lt;script&gt;
   (function() {
     let a = setInterval( function() {
@@ -107,7 +107,7 @@ data.head()
       clearInterval( a );
 
       Plotly.d3.json(&#34;./line-chart.json&#34;, function(chart) {
-        Plotly.plot(&#39;chart-498352617&#39;, chart.data, chart.layout, {responsive: true});
+        Plotly.plot(&#39;chart-324891756&#39;, chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();
