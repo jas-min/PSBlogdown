@@ -34,10 +34,59 @@ library(tidyverse)
 library(multcompView)
 library(gganimate)
 library(gapminder)
+library(DT)
+library(widgetframe)
 
-shootings <- read.csv("https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv", header = T, na.strings=c(""," ","NA"))
+shootings <- read.csv("https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv", header = T)
 
 ```
 
-# Introduction
+# Mental Illness
 
+A statistic that many post on their social media stories cites that people with mental illness are 15 times more likely to be shot in a police encounter than the lay person. We can think about people like Shukri Ali Said who's sister called 911 for aid when Said had a mental break. Police had found Said at an intersection with a knife and shot her 5 times, resulting in her death. We can think about Saheed Vassell. A man with a recorded mental illness, who also had a fatal police shooting. Vassell pointed a pipe at a police officer and was shot. We can think about the many people with mental and intellectual illnesses who had fatal police encounters and think about the possible different roots of the problem; the history of social stigma of treatment, to the processes of deinstitutionalization, to the defunding of existing community services like education, affordable housing, social and health services. 
+
+This post is going to explore the effects of mental illness and fatal police encounters. 
+
+# General Statistics
+
+```{r}
+
+shootings <- shootings %>% 
+  mutate(date = lubridate::ymd(date)) %>%   # Convert date to Lubridate
+  mutate(age = round(age)) %>%              # Make all ages integers
+  mutate(gender = as.factor(gender),        # Factorize
+         race = as.factor(race),
+         signs_of_mental_illness = as.factor(signs_of_mental_illness),
+         threat_level = as.factor(threat_level),
+         flee = as.factor(flee),
+         body_camera = as.factor(body_camera) )
+shootings <- shootings %>%
+  # Replace abbreviated race identifier with race
+  mutate(race = as.factor( ifelse(race=="W","White",
+                  ifelse(race=="B","Black",
+                  ifelse(race=="H", "Hispanic",
+                  ifelse(race=="A", "Asian",
+                  ifelse(race=="N", "Native American",
+                  ifelse(race=="O", "Other", "Not Recorded")))))))) %>%
+  mutate(year = year(date))
+datatable(shootings)
+
+
+```
+Table 1.
+
+
+
+```{r}
+mental.illness <- shootings %>%
+  mutate(count = 1) %>%
+  aggregate(count ~  race + signs_of_mental_illness + year, data = ., sum) %>%
+  group_by(race, signs_of_mental_illness) %>%
+  summarise_if(is.numeric, mean) %>%
+  select(-year) 
+  
+df <- datatable(mental.illness)
+widgetframe::frameWidget(df)
+
+```
+Table 2. 
