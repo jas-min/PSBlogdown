@@ -32,40 +32,103 @@ projects: []
 <div id="general-statistics" class="section level1">
 <h1>General Statistics</h1>
 <p>You can find the dataset <a href="https://github.com/washingtonpost/data-police-shootings">here</a>.</p>
-<pre class="r"><code>
-shootings &lt;- shootings %&gt;% 
-  mutate(date = lubridate::ymd(date)) %&gt;%   # Convert date to Lubridate
-  mutate(age = round(age)) %&gt;%              # Make all ages integers
-  mutate(gender = as.factor(gender),        # Factorize
-         race = as.factor(race),
-         signs_of_mental_illness = as.factor(signs_of_mental_illness),
-         threat_level = as.factor(threat_level),
-         flee = as.factor(flee),
-         body_camera = as.factor(body_camera) )
-shootings &lt;- shootings %&gt;%
-  # Replace abbreviated race identifier with race
-  mutate(race = as.factor( ifelse(race==&quot;W&quot;,&quot;White&quot;,
-                  ifelse(race==&quot;B&quot;,&quot;Black&quot;,
-                  ifelse(race==&quot;H&quot;, &quot;Hispanic&quot;,
-                  ifelse(race==&quot;A&quot;, &quot;Asian&quot;,
-                  ifelse(race==&quot;N&quot;, &quot;Native American&quot;,
-                  ifelse(race==&quot;O&quot;, &quot;Other&quot;, &quot;Not Recorded&quot;)))))))) %&gt;%
-  mutate(year = year(date))
-</code></pre>
 <pre class="r"><code>mental.illness &lt;- shootings %&gt;%
   mutate(count = 1) %&gt;%
   aggregate(count ~  race + signs_of_mental_illness + year, data = ., sum) %&gt;%
   group_by(race, signs_of_mental_illness) %&gt;%
-  summarise_if(is.numeric, mean) %&gt;%
-  select(-year) 
+  summarise(mean = mean(count),
+            sd = sd(count),
+            min = min(count),
+            max = max(count)) 
+## `summarise()` regrouping output by &#39;race&#39; (override with `.groups` argument)
 d1 &lt;- mental.illness %&gt;%
   datatable()
-  
-mental.illness %&gt;%
-  ggplot() +
-  geom_point(mapping = aes(x = signs_of_mental_illness, y = count, color = race)) </code></pre>
-<p><img src="/post/2020-08-26-exploration-of-mental-illness-and-fatal-police-shootings.en_files/figure-html/unnamed-chunk-2-1.png" width="672" />
-Table 1.</p>
-<iframe seamless src="../d1/index.html" width="100%" height="500">
+
+
+  </code></pre>
+<iframe seamless src="../d1.html" width="100%" height="500">
 </iframe>
+<p>Table 1
+<em>General descriptive statistics of fatal police shootings overall.</em></p>
+<pre class="r"><code>ag.year &lt;- shootings %&gt;%
+  mutate(count = 1) %&gt;%
+  aggregate(count ~  race + signs_of_mental_illness + year, data = ., sum) %&gt;%
+  group_by(race, signs_of_mental_illness, year) %&gt;%
+  summarise(mean = mean(count))
+## `summarise()` regrouping output by &#39;race&#39;, &#39;signs_of_mental_illness&#39; (override with `.groups` argument)
+  
+d2 &lt;- ag.year %&gt;%
+  datatable()
+
+
+ag.year %&gt;%
+  ggplot() +
+  geom_point(mapping = aes(x = race, y = mean), color = &quot;gray&quot;) +
+  geom_boxplot(mapping = aes(x = race, y = mean, fill = signs_of_mental_illness)) +
+  theme_bw() + ggtitle(&quot;Average Shootings by Mental Illness&quot;) + xlab(&quot;Race&quot;) + ylab(&quot;Average&quot;)</code></pre>
+<p><img src="/post/2020-08-26-exploration-of-mental-illness-and-fatal-police-shootings.en_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+Figure 1
+<em>Boxplot of the mean fatal police encounters by race over the years.</em></p>
+<iframe seamless src="../d2.html" width="100%" height="500">
+</iframe>
+<p>Table 2
+<em>Mean of police shooting by race aggregated by year.</em></p>
+<pre class="r"><code>shootings %&gt;%
+  mutate(count=1) %&gt;%
+  aggregate(count ~ signs_of_mental_illness + race, data = ., sum) %&gt;%
+  group_by(race) %&gt;%
+  mutate(prop = count / sum(count))
+## # A tibble: 14 x 4
+## # Groups:   race [7]
+##    signs_of_mental_illness race         count  prop
+##    &lt;fct&gt;                   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt;
+##  1 False                   Asian           70 0.753
+##  2 True                    Asian           23 0.247
+##  3 False                   Black         1129 0.857
+##  4 True                    Black          189 0.143
+##  5 False                   Hispanic       761 0.827
+##  6 True                    Hispanic       159 0.173
+##  7 False                   Native          64 0.821
+##  8 True                    Native          14 0.179
+##  9 False                   Not Recorded   477 0.791
+## 10 True                    Not Recorded   126 0.209
+## 11 False                   Other           37 0.787
+## 12 True                    Other           10 0.213
+## 13 False                   White         1796 0.710
+## 14 True                    White          732 0.290</code></pre>
+<p>In the two tables shown above, we get a good picture of the general look of fatal police encounters by signs of mental illness, from the years 2015 to current day. White people make up more than 70% of the US population, so it makes sense that white people will make up the most of police shootings in just raw numbers. Look at Figure 1 for the example. If we do some data crunching, we wil see something interesting. Since 2015, even though white people make up more than 70% of the population, 45% of fatal shootings involve white victims, which is disproportionate. If we factor in mental illness, overall, almost 30% of the white victims of fatal police shootings showed signs of mental illness. Of black victims: 14.3%, of asian: 24.7%, of hispanic: 17.2%, of native american: 17.9%. Overall, 28.9% of fatal police shooting victims are recorded as showing signs of mental illness.</p>
+</div>
+<div id="were-there-attempts-of-de-escalation" class="section level1">
+<h1>Were there attempts of de-escalation?</h1>
+<p>If more than 1 in 4 victims of fatal police shootings involve mental illness, were there attempts to subdue these victims besides shooting? The dataset I’m working with involve whether a taser was used to de-escalate along with shooting via the variable ‘manner_of_death’. There were only two categories, “shot”, and, “shot and Tasered”.</p>
+<pre class="r"><code>shootings %&gt;%
+  filter(signs_of_mental_illness == &quot;True&quot;) %&gt;%
+  mutate(count = 1) %&gt;%
+  aggregate(count ~ manner_of_death + year, data = ., sum) %&gt;%
+  group_by(year) %&gt;%
+  mutate(prop = count / sum(count)) %&gt;%
+  ggplot() +
+  geom_line(mapping = aes(x = year, y = prop, color = manner_of_death)) +
+  theme_bw() + xlab(&quot;Year&quot;) + ylab(&quot;Proportion&quot;) + ggtitle(&quot;Victims with Mental Illness&quot;)</code></pre>
+<p><img src="/post/2020-08-26-exploration-of-mental-illness-and-fatal-police-shootings.en_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+Figure 2</p>
+<p>In figure 2, we see that with the fatal police shootings involving victims that showed signs of mental illness, less than 10% in every year have on record that the police tried to deploy a taser as a means of subduing the victim. we actually see a dip in 2018 and is slowly starting to rise again. We are only through a little more than half of the year, but this dataset is updated real time, so this graph will always be current.</p>
+<pre class="r"><code>shootings %&gt;%
+  filter(signs_of_mental_illness == &quot;True&quot;, manner_of_death == &quot;shot and Tasered&quot;) %&gt;%
+  mutate(count = 1) %&gt;%
+  aggregate(count ~ manner_of_death + year + race, data = ., sum) %&gt;%
+  group_by(year) %&gt;%
+  mutate(prop = count / sum(count)) %&gt;%
+  ggplot() +
+  geom_smooth(mapping = aes(x = year, y = prop, color = race)) +
+  theme_bw() + xlab(&quot;Year&quot;) + ylab(&quot;Proportion&quot;) + ggtitle(&quot;Victims with Mental Illness by Race&quot;)</code></pre>
+<p><img src="/post/2020-08-26-exploration-of-mental-illness-and-fatal-police-shootings.en_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+Figure 3
+<em>Taser deployed with victims showing signs of mental illness by race</em></p>
+<p>Figure 3 offers more insight. Overall, through all years, white victims that involve deployment of a taser: 47.8%, native american: 1.11%, hispanic: 17.8%, black: 23.3%, asian: 3.3%. We also see that the proportion of the use and deployment of a taser is more steadily increasing among black and white victims, those who make up the majority of victims of fatal police shootings. The percentage of hispanic victims look to be increasing to a small degree, but it may be attributed to the decrease in proportion of victims with race not being recorded.</p>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>With almost 28.9% of all fatal police shootings involve the victims showing signs of mental illness. Of those instances, less than 10% every year are recorded that other means than just shooting a gun were used to subdue the victim. Figure 3 shows the ratio of those instances by race with white and black percentages increasing since 2018.</p>
+<p>It still begs the question. If 28.9% of victims of fatal police shootings show signs of mental illness, why do 10% of those cases have other means besides shooting as a way to subdue these individuals? I do think it is important to note that certain states have banned the use of tasers. However, could these instances of mental breaks or threatening individuals with mental illnesses been avoided all together? Should we have invested more in social services and health services? These are questions that can’t be answered with this dataset alone.</p>
 </div>
