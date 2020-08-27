@@ -36,6 +36,8 @@ library(gganimate)
 library(gapminder)
 library(DT)
 library(widgetframe)
+library(htmlwidgets)
+library(htmltools)
 
 shootings <- read.csv("https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv", header = T)
 
@@ -48,6 +50,8 @@ A statistic that many post on their social media stories cites that people with 
 This post is going to explore the effects of mental illness and fatal police encounters. 
 
 # General Statistics
+
+You can find the dataset [here](https://github.com/washingtonpost/data-police-shootings).
 
 ```{r}
 
@@ -69,11 +73,10 @@ shootings <- shootings %>%
                   ifelse(race=="N", "Native American",
                   ifelse(race=="O", "Other", "Not Recorded")))))))) %>%
   mutate(year = year(date))
-datatable(shootings)
 
 
 ```
-Table 1.
+
 
 
 
@@ -84,9 +87,21 @@ mental.illness <- shootings %>%
   group_by(race, signs_of_mental_illness) %>%
   summarise_if(is.numeric, mean) %>%
   select(-year) 
+d1 <- mental.illness %>%
+  datatable()
   
-df <- datatable(mental.illness)
-widgetframe::frameWidget(df)
+mental.illness %>%
+  ggplot() +
+  geom_point(mapping = aes(x = signs_of_mental_illness, y = count, color = race)) 
 
 ```
-Table 2. 
+Table 1. 
+
+
+
+```{r include=FALSE}
+htmlwidgets::saveWidget(d1, file = "d1.html", selfcontained = TRUE)
+```
+
+
+<iframe seamless src="../d1/index.html" width="100%" height="500"></iframe>
