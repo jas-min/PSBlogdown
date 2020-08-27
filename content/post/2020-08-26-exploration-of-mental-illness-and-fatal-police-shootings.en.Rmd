@@ -1,0 +1,42 @@
+---
+title: Exploration of Mental Illness and Fatal Police Shootings
+author: 
+- admin
+date: '2020-08-26'
+slug: exploration-of-mental-illness-and-fatal-police-shootings
+categories:
+  - R
+tags:
+  - R Markdown
+  - plot
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-08-26T22:40:23-07:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+
+library(modelr)
+library(infer)
+library(knitr)
+library(broom)
+library(lubridate)
+library(tidyverse)
+library(multcompView)
+library(gganimate)
+library(gapminder)
+
+shootings <- read.csv("https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv", header = T, na.strings=c(""," ","NA"))
+
+```
+
+# Introduction
+
