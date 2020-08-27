@@ -24,7 +24,37 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2020-08-26T17:48:03-07:00</lastmod>
+    <lastmod>2020-08-26T23:46:00-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-08-26T23:46:00-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/exploration-of-mental-illness-and-fatal-police-shootings/</loc>
+    <lastmod>2020-08-26T23:46:00-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/plot/</loc>
+    <lastmod>2020-08-26T23:46:00-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/r/</loc>
+    <lastmod>2020-08-26T23:46:00-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/r-markdown/</loc>
+    <lastmod>2020-08-26T23:46:00-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-08-26T23:46:00-07:00</lastmod>
   </url>
   
   <url>
@@ -54,11 +84,6 @@
   
   <url>
     <loc>/tag/source-themes/</loc>
-    <lastmod>2020-08-26T13:21:04-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-08-26T13:21:04-07:00</lastmod>
   </url>
   
@@ -123,11 +148,6 @@
   </url>
   
   <url>
-    <loc>/categories/</loc>
-    <lastmod>2020-08-26T13:21:04-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/category/demo/</loc>
     <lastmod>2020-08-26T13:21:04-07:00</lastmod>
   </url>
@@ -164,21 +184,6 @@
   
   <url>
     <loc>/post/2015-07-23-r-rmarkdown/</loc>
-    <lastmod>2020-08-26T13:21:04-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/plot/</loc>
-    <lastmod>2020-08-26T13:21:04-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/r/</loc>
-    <lastmod>2020-08-26T13:21:04-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/r-markdown/</loc>
     <lastmod>2020-08-26T13:21:04-07:00</lastmod>
   </url>
   
