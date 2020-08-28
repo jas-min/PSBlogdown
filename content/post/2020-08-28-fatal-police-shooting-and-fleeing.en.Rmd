@@ -1,0 +1,101 @@
+---
+title: Looking at Fatal Police Shootings and Victims Fleeing 
+author: 
+  - admin
+date: '2020-08-28'
+slug: fatal-police-shooting-and-fleeing
+categories:
+  - R
+tags:
+  - plot
+  - R Markdown
+  - flee
+  - time
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-08-28T13:25:40-07:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+
+library(modelr)
+library(infer)
+library(knitr)
+library(broom)
+library(lubridate)
+library(tidyverse)
+library(multcompView)
+library(gganimate)
+library(gapminder)
+library(DT)
+library(widgetframe)
+library(htmlwidgets)
+library(htmltools)
+
+shootings <- read.csv("https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv", header = T)
+
+shootings <- shootings %>% 
+  mutate(date = lubridate::ymd(date)) %>%   # Convert date to Lubridate
+  mutate(age = round(age)) %>%              # Make all ages integers
+  mutate(gender = as.factor(gender),        # Factorize
+         race = as.factor(race),
+         signs_of_mental_illness = as.factor(signs_of_mental_illness),
+         threat_level = as.factor(threat_level),
+         flee = as.factor(flee),
+         body_camera = as.factor(body_camera) )
+shootings <- shootings %>%
+  # Replace abbreviated race identifier with race
+  mutate(race = as.factor( ifelse(race=="W","White",
+                  ifelse(race=="B","Black",
+                  ifelse(race=="H", "Hispanic",
+                  ifelse(race=="A", "Asian",
+                  ifelse(race=="N", "Native",
+                  ifelse(race=="O", "Other", "Not Recorded")))))))) %>%
+  mutate(year = year(date)) %>%
+  mutate(flee = as.factor( ifelse(flee=="Car","Car",
+                  ifelse(flee=="Foot","Foot",
+                  ifelse(flee=="Not fleeing", "Not Fleeing",
+                  ifelse(flee=="Other", "Other", "Not Recorded"))))))
+```
+
+
+
+# Fleeing and Some Implications
+Growing up in Stockton, Ca it's never really surprising to hear about a police chase in where the suspect gets shot and then passes away. It's not surprising when we hear of people fleeing from the police when the situation escalates. What is surprising to hear is when a law enforcement officer is prosecuted for the death of a fleeing sispect. In Georgia, a police officer had a fatal encounter with [a man who was fleeing](https://apnews.com/ae503a6672a34aff873260456224652f/Manslaughter-charge:-Georgia-officer-shot-fleeing-black-man) was charged with manslaughter. A police officer was charged for shooting and death of a [teenager who fleed after a traffic stop](https://apnews.com/f721e40873ef4b06ac2c5e6c0200d0f8/Officer-charged-in-death-of-black-teen-who-was-shot-in-back). 
+
+This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.
+
+# Type of Fleeing 
+Figure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing are these individuals using. 
+
+```{r}
+#proportion are killed while attempting to flee
+shootings %>%
+  mutate(count = 1) %>%
+  aggregate(count ~ flee + year, data = ., sum) %>%
+  group_by(year) %>%
+  mutate(proportion = count / sum(count)) %>%
+  ggplot() +
+    geom_line(mapping = aes(x = year, y = proportion, color = flee)) +
+    ggtitle("Proportion of Fatal Police Shooting by Flee Method") + 
+    xlab("Year") + ylab("Proportion")
+
+```
+Figure 1
+*The proportion of fatal police shootings by flee method over time.*
+
+
+
+
+
+
+
+
+

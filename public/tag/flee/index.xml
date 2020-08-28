@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>flee | Final Project - Police Shootings in the US</title>
+    <link>/tag/flee/</link>
+      <atom:link href="/tag/flee/index.xml" rel="self" type="application/rss+xml" />
+    <description>flee</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 28 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>flee</title>
+      <link>/tag/flee/</link>
+    </image>
+    
+    <item>
+      <title>Looking at Fatal Police Shootings and Victims Fleeing</title>
+      <link>/post/fatal-police-shooting-and-fleeing/</link>
+      <pubDate>Fri, 28 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>/post/fatal-police-shooting-and-fleeing/</guid>
+      <description>
+
+
+&lt;div id=&#34;fleeing-and-some-implications&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Fleeing and Some Implications&lt;/h1&gt;
+&lt;p&gt;Growing up in Stockton, Ca it’s never really surprising to hear about a police chase in where the suspect gets shot and then passes away. It’s not surprising when we hear of people fleeing from the police when the situation escalates. What is surprising to hear is when a law enforcement officer is prosecuted for the death of a fleeing sispect. In Georgia, a police officer had a fatal encounter with &lt;a href=&#34;https://apnews.com/ae503a6672a34aff873260456224652f/Manslaughter-charge:-Georgia-officer-shot-fleeing-black-man&#34;&gt;a man who was fleeing&lt;/a&gt; was charged with manslaughter. A police officer was charged for shooting and death of a &lt;a href=&#34;https://apnews.com/f721e40873ef4b06ac2c5e6c0200d0f8/Officer-charged-in-death-of-black-teen-who-was-shot-in-back&#34;&gt;teenager who fleed after a traffic stop&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;type-of-fleeing&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Type of Fleeing&lt;/h1&gt;
+&lt;p&gt;Figure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing are these individuals using.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#proportion are killed while attempting to flee
+shootings %&amp;gt;%
+  mutate(count = 1) %&amp;gt;%
+  aggregate(count ~ flee + year, data = ., sum) %&amp;gt;%
+  group_by(year) %&amp;gt;%
+  mutate(proportion = count / sum(count)) %&amp;gt;%
+  ggplot() +
+    geom_line(mapping = aes(x = year, y = proportion, color = flee)) +
+    ggtitle(&amp;quot;Proportion of Fatal Police Shooting by Flee Method&amp;quot;) + 
+    xlab(&amp;quot;Year&amp;quot;) + ylab(&amp;quot;Proportion&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-08-28-fatal-police-shooting-and-fleeing.en_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;
+Figure 1
+&lt;em&gt;The proportion of fatal police shootings by flee method over time.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

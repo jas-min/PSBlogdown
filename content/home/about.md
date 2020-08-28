@@ -21,7 +21,7 @@ author: admin
 ---
 Police brutality is so much more frequent in the US than compared to almost all of our developed counterparts. Thus, the US often faces criticism from other countries and even from its own citizens. Many wonder about the different aspects of police brutality. Fatal police encounters, police shootings, evidence of de-escalation, etc.
 
-Since January 2015, Washington Post and database developer, John Muyskens has kept an up to date [dataset](https://github.com/washingtonpost/data-police-shootings) of all fatal police shootings in the US. The dataset is descriptive of the circumstances of that of a police officer whom shot a killed a civilian. In recent, we can think about Philando Castile, Breonna Taylor, Tamir Rice, or Michael Brown that closely parallel what the dataset describes. In result of these killings, movements like Black Lives Matter and a call for accountability and change arose around the world. 
+Since January 2015, Washington Post and database developer, John Muyskens has kept an up-to-date [dataset](https://github.com/washingtonpost/data-police-shootings) of all fatal police shootings in the US. The dataset is descriptive of the circumstances of that of a police officer whom shot and killed a civilian. We can think about Philando Castile, Breonna Taylor, Tamir Rice, or Michael Brown that closely parallel these circumstances. In result of these killings, movements like Black Lives Matter, and calls for increasing accountability and change arose around the world. 
 
 I would like to point out a few things that need to be in mind when looking at these analyses. Although it will be pointed out in the respective topic each analysis is within, these variables need to be discussed:
 

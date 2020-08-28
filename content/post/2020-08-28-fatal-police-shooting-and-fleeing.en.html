@@ -1,0 +1,49 @@
+---
+title: Looking at Fatal Police Shootings and Victims Fleeing 
+author: 
+  - admin
+date: '2020-08-28'
+slug: fatal-police-shooting-and-fleeing
+categories:
+  - R
+tags:
+  - plot
+  - R Markdown
+  - flee
+  - time
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-08-28T13:25:40-07:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+
+<div id="fleeing-and-some-implications" class="section level1">
+<h1>Fleeing and Some Implications</h1>
+<p>Growing up in Stockton, Ca it’s never really surprising to hear about a police chase in where the suspect gets shot and then passes away. It’s not surprising when we hear of people fleeing from the police when the situation escalates. What is surprising to hear is when a law enforcement officer is prosecuted for the death of a fleeing sispect. In Georgia, a police officer had a fatal encounter with <a href="https://apnews.com/ae503a6672a34aff873260456224652f/Manslaughter-charge:-Georgia-officer-shot-fleeing-black-man">a man who was fleeing</a> was charged with manslaughter. A police officer was charged for shooting and death of a <a href="https://apnews.com/f721e40873ef4b06ac2c5e6c0200d0f8/Officer-charged-in-death-of-black-teen-who-was-shot-in-back">teenager who fleed after a traffic stop</a>.</p>
+<p>This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.</p>
+</div>
+<div id="type-of-fleeing" class="section level1">
+<h1>Type of Fleeing</h1>
+<p>Figure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing are these individuals using.</p>
+<pre class="r"><code>#proportion are killed while attempting to flee
+shootings %&gt;%
+  mutate(count = 1) %&gt;%
+  aggregate(count ~ flee + year, data = ., sum) %&gt;%
+  group_by(year) %&gt;%
+  mutate(proportion = count / sum(count)) %&gt;%
+  ggplot() +
+    geom_line(mapping = aes(x = year, y = proportion, color = flee)) +
+    ggtitle(&quot;Proportion of Fatal Police Shooting by Flee Method&quot;) + 
+    xlab(&quot;Year&quot;) + ylab(&quot;Proportion&quot;)</code></pre>
+<p><img src="/post/2020-08-28-fatal-police-shooting-and-fleeing.en_files/figure-html/unnamed-chunk-1-1.png" width="672" />
+Figure 1
+<em>The proportion of fatal police shootings by flee method over time.</em></p>
+</div>

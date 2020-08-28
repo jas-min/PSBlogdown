@@ -105,7 +105,7 @@ htmlwidgets::saveWidget(d1, file = "d1.html", selfcontained = TRUE)
 ```
 
 
-<<<<<<< HEAD
+
 <iframe seamless src="../d1.html" width="100%" height="500"></iframe>
 
 Table 1
@@ -141,7 +141,7 @@ Table 2
 *Mean of police shooting by race aggregated by year.*
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 shootings %>%
   mutate(count=1) %>%
   aggregate(count ~ signs_of_mental_illness + race, data = ., sum) %>%
