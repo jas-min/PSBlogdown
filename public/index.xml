@@ -106,8 +106,8 @@ d1 &amp;lt;- mental.illness %&amp;gt;%
 
 
   &lt;/code&gt;&lt;/pre&gt;
-&lt;iframe seamless src=&#34;../d1.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
-&lt;/iframe&gt;
+&lt;p&gt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEAD
+&lt;iframe seamless src=&#34;../d1.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;&lt;/iframe&gt;&lt;/p&gt;
 &lt;p&gt;Table 1
 &lt;em&gt;General descriptive statistics of fatal police shootings overall.&lt;/em&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ag.year &amp;lt;- shootings %&amp;gt;%
@@ -224,7 +224,7 @@ data.head()
 &lt;p&gt;Demo:&lt;/p&gt;
 
 
-&lt;div id=&#34;chart-825734916&#34; class=&#34;chart pb-3&#34; style=&#34;max-width: 100%; margin: auto;&#34;&gt;&lt;/div&gt;
+&lt;div id=&#34;chart-691734582&#34; class=&#34;chart pb-3&#34; style=&#34;max-width: 100%; margin: auto;&#34;&gt;&lt;/div&gt;
 &lt;script&gt;
   (function() {
     let a = setInterval( function() {
@@ -234,7 +234,7 @@ data.head()
       clearInterval( a );
 
       Plotly.d3.json(&#34;./line-chart.json&#34;, function(chart) {
-        Plotly.plot(&#39;chart-825734916&#39;, chart.data, chart.layout, {responsive: true});
+        Plotly.plot(&#39;chart-691734582&#39;, chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();
