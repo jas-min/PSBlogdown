@@ -1,7 +1,7 @@
 ---
 # An instance of the About widget.
 # Documentation: https://sourcethemes.com/academic/docs/page-builder/
-widget: about
+widget: blank
 
 # Activate this widget? true/false
 active: true
@@ -19,3 +19,4 @@ title: Introduction
 # See https://sourcethemes.com/academic/docs/get-started/#introduce-yourself
 author: admin
 ---
+eshould i just write in here
