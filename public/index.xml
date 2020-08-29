@@ -118,7 +118,7 @@ Keep in mind how the level of threat is determined, as explained in the home pag
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 1.
 &lt;em&gt;Amount of Fatal Police Shootings by Race since 2015&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;All three graphs look identical the only visual difference is the volume of counts. I think in this case, looking at the proportions will be more inferenital.&lt;/p&gt;
+&lt;p&gt;All three graphs look identical. The only visual difference is the volume of the counts. I think in this case, looking at the proportions will be more inferenital.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r.proportion &amp;lt;- shootings %&amp;gt;%
   mutate(count = 1) %&amp;gt;%
   mutate(year = year(date)) %&amp;gt;%
@@ -128,9 +128,116 @@ Figure 1.
   mutate(race.proportion = count / sum(count))
 r.proportion %&amp;gt;%
   ggplot() +
-  geom_boxplot(mapping = aes(x = race, y = race.proportion)) +
-  geom_point(mapping = aes(x = race, y = race.proportion, color = year))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+  geom_boxplot(mapping = aes(x = race, y = race.proportion), fill = &amp;quot;lavender&amp;quot;) +
+  geom_point(mapping = aes(x = race, y = race.proportion, color = year)) +
+  ggtitle(&amp;quot;Proportion of Race with &amp;#39;attack&amp;#39; Threat Level&amp;quot;) + xlab(&amp;quot;Race&amp;quot;) +
+  ylab(&amp;quot;Proportion&amp;quot;) + theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;
+Figure 2.
+&lt;em&gt;Box plot and distribution of the proportions of victims who are recorded to have posed a threat to an officer’s life by race from 2015 to current.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r.proportion %&amp;gt;%
+  lm(formula = race.proportion ~ race, data = .) -&amp;gt; model
+
+summary(model)
+## 
+## Call:
+## lm(formula = race.proportion ~ race, data = .)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.092653 -0.004648 -0.000999  0.011827  0.183269 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept)       0.014002   0.018970   0.738 0.465378    
+## raceBlack         0.227499   0.026828   8.480 5.26e-10 ***
+## raceHispanic      0.133036   0.026828   4.959 1.82e-05 ***
+## raceNative       -0.001813   0.026828  -0.068 0.946506    
+## raceNot Recorded  0.105896   0.026828   3.947 0.000364 ***
+## raceOther        -0.005536   0.026828  -0.206 0.837706    
+## raceWhite         0.442904   0.026828  16.509  &amp;lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Residual standard error: 0.04647 on 35 degrees of freedom
+## Multiple R-squared:  0.9273, Adjusted R-squared:  0.9148 
+## F-statistic:  74.4 on 6 and 35 DF,  p-value: &amp;lt; 2.2e-16&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ANOVA.threat = aov(model)
+
+# Tukey test to study each pair of treatment :
+TUKEY &amp;lt;- TukeyHSD(x=ANOVA.threat, &amp;#39;race&amp;#39;, conf.level=0.95, ordered = TRUE)
+# Tuckey test representation :
+plot(TUKEY , las=1 , col=&amp;quot;brown&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;TUKEY
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+##     factor levels have been ordered
+## 
+## Fit: aov(formula = model)
+## 
+## $race
+##                              diff         lwr        upr     p adj
+## Native-Other          0.003723252 -0.08014022 0.08758673 0.9999993
+## Asian-Other           0.005536265 -0.07832721 0.08939974 0.9999925
+## Not Recorded-Other    0.111432473  0.02756900 0.19529595 0.0034425
+## Hispanic-Other        0.138572099  0.05470863 0.22243557 0.0001832
+## Black-Other           0.233035326  0.14917185 0.31689880 0.0000000
+## White-Other           0.448440663  0.36457719 0.53230414 0.0000000
+## Asian-Native          0.001813012 -0.08205046 0.08567649 1.0000000
+## Not Recorded-Native   0.107709221  0.02384575 0.19157269 0.0050606
+## Hispanic-Native       0.134848847  0.05098537 0.21871232 0.0002764
+## Black-Native          0.229312074  0.14544860 0.31317555 0.0000000
+## White-Native          0.444717410  0.36085394 0.52858088 0.0000000
+## Not Recorded-Asian    0.105896208  0.02203274 0.18975968 0.0060919
+## Hispanic-Asian        0.133035834  0.04917236 0.21689931 0.0003375
+## Black-Asian           0.227499061  0.14363559 0.31136253 0.0000000
+## White-Asian           0.442904398  0.35904093 0.52676787 0.0000000
+## Hispanic-Not Recorded 0.027139626 -0.05672385 0.11100310 0.9478976
+## Black-Not Recorded    0.121602853  0.03773938 0.20546633 0.0011716
+## White-Not Recorded    0.337008190  0.25314472 0.42087166 0.0000000
+## Black-Hispanic        0.094463227  0.01059975 0.17832670 0.0188790
+## White-Hispanic        0.309868564  0.22600509 0.39373204 0.0000000
+## White-Black           0.215405337  0.13154186 0.29926881 0.0000000&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# I need to group the treatments that are not different each other together.
+generate_label_df &amp;lt;- function(TUKEY, variable){
+ 
+     # Extract labels and factor levels from Tukey post-hoc 
+     levels &amp;lt;- TUKEY[[variable]][,4]
+     Tukey.labels &amp;lt;- data.frame(multcompLetters(levels)[&amp;#39;Letters&amp;#39;])
+     
+     #I need to put the labels in the same order as in the boxplot :
+     Tukey.labels$treatment=rownames(Tukey.labels)
+     Tukey.labels=Tukey.labels[order(Tukey.labels$treatment) , ]
+     return(Tukey.labels)
+     }
+ 
+# Apply the function on my dataset
+LABELS &amp;lt;- generate_label_df(TUKEY , &amp;quot;race&amp;quot;)
+ 
+ 
+# A panel of colors to draw each group with the same color :
+my_colors &amp;lt;- c( 
+  rgb(143,199,74,maxColorValue = 255),
+  rgb(242,104,34,maxColorValue = 255), 
+  rgb(111,145,202,maxColorValue = 255),
+  rgb(151,105,102,maxColorValue = 255)
+  )
+ 
+# Draw the basic boxplot
+a &amp;lt;- boxplot(r.proportion$race.proportion ~ r.proportion$race, ylim=c(min(r.proportion$race.proportion) , 1.1*max(r.proportion$race.proportion)) , col=my_colors[as.numeric(LABELS[,1])] , ylab=&amp;quot;value&amp;quot; , main=&amp;quot;&amp;quot;)
+## Warning in boxplot.default(split(mf[[response]], mf[-response], drop = drop, :
+## NAs introduced by coercion
+
+
+# I want to write the letter over each box. Over is how high I want to write it.
+over &amp;lt;- 0.1*max( a$stats[nrow(a$stats),] )
+ 
+#Add the labels
+text( c(1:nlevels(r.proportion$race)) , a$stats[nrow(a$stats),]+over , LABELS[,1]  , col  = my_colors[as.numeric(LABELS[,1])] )
+## Warning in text.default(c(1:nlevels(r.proportion$race)),
+## a$stats[nrow(a$stats), : NAs introduced by coercion&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -260,7 +367,7 @@ data.head()
 &lt;p&gt;Demo:&lt;/p&gt;
 
 
-&lt;div id=&#34;chart-196378245&#34; class=&#34;chart pb-3&#34; style=&#34;max-width: 100%; margin: auto;&#34;&gt;&lt;/div&gt;
+&lt;div id=&#34;chart-482973615&#34; class=&#34;chart pb-3&#34; style=&#34;max-width: 100%; margin: auto;&#34;&gt;&lt;/div&gt;
 &lt;script&gt;
   (function() {
     let a = setInterval( function() {
@@ -270,7 +377,7 @@ data.head()
       clearInterval( a );
 
       Plotly.d3.json(&#34;./line-chart.json&#34;, function(chart) {
-        Plotly.plot(&#39;chart-196378245&#39;, chart.data, chart.layout, {responsive: true});
+        Plotly.plot(&#39;chart-482973615&#39;, chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();
