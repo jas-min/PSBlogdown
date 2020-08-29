@@ -33,7 +33,7 @@
   <meta name="description" content="Struggling Student">
 
   
-  <link rel="alternate" hreflang="en-us" href="/">
+  <link rel="alternate" hreflang="en-us" href="/tag/anova/">
 
   
 
@@ -231,18 +231,16 @@
 
   
   
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  
 
   
-  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Final Project - Police Shootings in the US">
+  <link rel="alternate" href="/tag/anova/index.xml" type="application/rss+xml" title="Final Project - Police Shootings in the US">
   
 
   <link rel="manifest" href="/index.webmanifest">
   <link rel="icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png">
   <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png">
 
-  <link rel="canonical" href="/">
+  <link rel="canonical" href="/tag/anova/">
 
   
   
@@ -258,8 +256,8 @@
   <meta property="twitter:card" content="summary">
   
   <meta property="og:site_name" content="Final Project - Police Shootings in the US">
-  <meta property="og:url" content="/">
-  <meta property="og:title" content="Final Project - Police Shootings in the US">
+  <meta property="og:url" content="/tag/anova/">
+  <meta property="og:title" content="ANOVA | Final Project - Police Shootings in the US">
   <meta property="og:description" content="Struggling Student"><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
   
@@ -268,21 +266,7 @@
 
   
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "/?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  },
-  "url": "/"
-}
-</script>
 
-
-  
 
 
   
@@ -294,12 +278,12 @@
 
 
 
-  <title>Final Project - Police Shootings in the US</title>
+  <title>ANOVA | Final Project - Police Shootings in the US</title>
 
 </head>
 
 
-<body id="top" data-spy="scroll" data-offset="70" data-target="#navbar-main" class=" ">
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class=" ">
 
   
   
@@ -418,7 +402,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#posts" data-target="#posts"><span>Posts</span></a>
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
         </li>
 
         
@@ -455,7 +439,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#featured" data-target="#featured"><span>Publications</span></a>
+          <a class="nav-link " href="/#featured"><span>Publications</span></a>
         </li>
 
         
@@ -512,630 +496,47 @@
 
 
 
-  
-<span class="js-widget-page d-none"></span>
 
 
-
-
-
-  
-  
-  
-  
-
-
-
-
-  
-  
-  
-
-  
-
-  
-
-  
 
   
 
   
   
+  
+    
+  
+<div class="universal-wrapper pt-3">
+  <h1>ANOVA</h1>
 
   
 
-  
-  
-
-  
-  
-  
-
-  
-  
-  
-  
-  
-
-  
-  
-
-  
-
-  <section id="about" class="home-section wg-blank   "  >
-    <div class="container">
-      
-
-
-<div class="row">
-  
-    <div class="col-12 col-lg-4 section-heading">
-      <h1>About</h1>
-      
-    </div>
-    <div class="col-12 col-lg-8">
-      <p>Police brutality is so much more frequent in the US than compared to almost all of our developed counterparts. Thus, the US often faces criticism from other countries and even from its own citizens. Many wonder about the different aspects of police brutality. Fatal police encounters, police shootings, evidence of de-escalation, etc.</p>
-<p>Since January 2015, Washington Post and database developer, John Muyskens has kept an up-to-date 
-<a href="https://github.com/washingtonpost/data-police-shootings" target="_blank" rel="noopener">dataset</a> of all fatal police shootings in the US. The dataset is descriptive of the circumstances of that of a police officer whom shot and killed a civilian. We can think about Philando Castile, Breonna Taylor, Tamir Rice, or Michael Brown that closely parallel these circumstances. In result of these killings, movements like Black Lives Matter, and calls for increasing accountability and change arose around the world.</p>
-<p>I would like to point out a few things that need to be in mind when looking at these analyses. Although it will be pointed out in the respective topic each analysis is within, these variables need to be discussed:</p>
-<p><em>manner_of_death</em></p>
-<p><em>race</em></p>
-<p><em>threat_level</em></p>
-<p><em>flee</em></p>
-<p>&mdash;manner_of_death only has two categories, &ldquo;shot&rdquo; and &ldquo;shot and Tasered&rdquo;. This is meant to indicate that if another method was used beside a gun to subdue the victim of a fatal police shooting. There isn&rsquo;t any other indication if other methods were reported to subdue a victim. This may be a lacking variable, but this dataset is on what is reported through local news, law enforcement websites, other databases, social media, and then vetted, so only having two categories is justified.</p>
-<p>&mdash;race has a category &ldquo;unknown&rdquo;, which I updated in all analyses as &ldquo;Not Recorded&rdquo;. The reasoning behind it, is because there is an &ldquo;other&rdquo; category, so the race was not recorded through the means described in manner of death.</p>
-<p>&mdash;threat_level has the reported immediate threat of an officer&rsquo;s life as &ldquo;attack&rdquo;. This can be reported through the perception of the police report or other through the other means of updating the dataset. So keep in mind the possibility of a variation of the truth because this variable is based on perception.</p>
-<p>&mdash;flee the threat_level are not necessarily related.</p>
-<h3 id="details">Details</h3>
-<p>This is a project by Jasmin Cabarios and in collaboration with Alexander Goldstein for STAT 331 at California Polytechnic University, San Luis Obispo.</p>
-<p>As such, all source code is available 
-<a href="https://github.com/jas-min/PSBlogdown" target="_blank" rel="noopener">here</a> and at the bottom of every analysis at the github icon in the author section.</p>
-
-    </div>
   
 </div>
 
-    </div>
-  </section>
 
-  
-  
+
+<div class="universal-wrapper">
   
 
   
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-  
-
-  
-  
-  
-
-  
-  
-  
-  
-  
-
-  
-  
-
-  
-
-  <section id="posts" class="home-section wg-pages   "  >
-    <div class="container">
-      
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-<div class="row ">
   
     
-      <div class="col-12 col-lg-4 section-heading">
-        <h1>Topics</h1>
-        
-      </div>
     
-  
-  <div class="col-12 col-lg-8">
-
     
-
-    
-      
-        
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/fatal-police-shooting-and-fleeing/" >Fleeing</a>
-    </h3>
-
-    
-    <a href="/post/fatal-police-shooting-and-fleeing/" class="summary-link">
+    <div>
+      <h2><a href="/post/threat-and-race/" >Threat and Race</a></h2>
       <div class="article-style">
-        Fleeing and Some ImplicationsIt’s never really surprising to hear about a police chase in where the suspect gets shot and then passes away. It’s not surprising when we hear of people fleeing from the police when the situation escalates.
+        
+          Threat and RaceThere has always been a debate between the links of fatal police shootings and victims. There has even been insinuations that race has an effect on the threatening nature of these individuals.
+        
       </div>
-    </a>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-          Last updated on
-      
-    
-    Aug 28, 2020
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    2 min read
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/r/">R</a></span>
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-      
-    
-      
-        
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/threat-and-race/" >Threat and Race</a>
-    </h3>
-
-    
-    <a href="/post/threat-and-race/" class="summary-link">
-      <div class="article-style">
-        Threat and RaceThere has always been a debate between the links of fatal police shootings and victims. There has even been insinuations that race has an effect on the threatening nature of these individuals.
-      </div>
-    </a>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-          Last updated on
-      
-    
-    Aug 28, 2020
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    2 min read
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/r/">R</a></span>
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-      
-    
-      
-        
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/exploration-of-mental-illness-and-fatal-police-shootings/" >Exploration of Mental Illness and Fatal Police Shootings</a>
-    </h3>
-
-    
-    <a href="/post/exploration-of-mental-illness-and-fatal-police-shootings/" class="summary-link">
-      <div class="article-style">
-        Mental IllnessA statistic that many post on their social media stories cites that people with mental illness are 15 times more likely to be shot in a police encounter than the lay person.
-      </div>
-    </a>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-          Last updated on
-      
-    
-    Aug 28, 2020
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    5 min read
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/r/">R</a></span>
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-      
-    
-      
-        
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/post/writing-technical-content/" >Writing technical content in Academic</a>
-    </h3>
-
-    
-    <a href="/post/writing-technical-content/" class="summary-link">
-      <div class="article-style">
-        Academic is designed to give technical content creators a seamless experience. You can focus on the content and Academic handles the rest.
-Highlight your code snippets, take notes on math classes, and draw diagrams from textual representation.
-      </div>
-    </a>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-          Last updated on
-      
-    
-    Aug 26, 2020
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    5 min read
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-    
-    <a href="/post/writing-technical-content/" >
-      <img src="/post/writing-technical-content/featured_huc72159e0fc0d14b85f60d34436a630f0_266353_150x0_resize_q90_lanczos.jpg" alt="Writing technical content in Academic">
-    </a>
-    
-  </div>
-</div>
-
-      
-    
-
-    
-    
-    
-
-  </div>
-</div>
-
-    </div>
-  </section>
-
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-  
-
-  
-  
-  
-
-  
-  
-  
-  
-  
-
-  
-  
-
-  
-
-  <section id="hero" class="home-section wg-blank   "  >
-    <div class="container">
-      
-
-
-<div class="row">
-  
-    <div class="col-12 col-lg-4 section-heading">
-      
-      
-    </div>
-    <div class="col-12 col-lg-8">
-      
     </div>
   
+
+  
+
 </div>
-
-    </div>
-  </section>
-
-
-
 
       
 
@@ -1219,18 +620,6 @@ Highlight your code snippets, take notes on math classes, and draw diagrams from
     
 
     
-    
-    <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
-          }
-        });
-      }
-    </script>
     
 
     

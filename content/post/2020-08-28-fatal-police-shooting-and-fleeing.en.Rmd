@@ -1,5 +1,5 @@
 ---
-title: Looking at Fatal Police Shootings and Victims Fleeing 
+title: Fleeing
 author: 
   - admin
 date: '2020-08-28'
@@ -68,12 +68,12 @@ shootings <- shootings %>%
 
 
 # Fleeing and Some Implications
-Growing up in Stockton, Ca it's never really surprising to hear about a police chase in where the suspect gets shot and then passes away. It's not surprising when we hear of people fleeing from the police when the situation escalates. What is surprising to hear is when a law enforcement officer is prosecuted for the death of a fleeing sispect. In Georgia, a police officer had a fatal encounter with [a man who was fleeing](https://apnews.com/ae503a6672a34aff873260456224652f/Manslaughter-charge:-Georgia-officer-shot-fleeing-black-man) was charged with manslaughter. A police officer was charged for shooting and death of a [teenager who fleed after a traffic stop](https://apnews.com/f721e40873ef4b06ac2c5e6c0200d0f8/Officer-charged-in-death-of-black-teen-who-was-shot-in-back). 
+It's never really surprising to hear about a police chase in where the suspect gets shot and then passes away. It's not surprising when we hear of people fleeing from the police when the situation escalates. What is surprising to hear is when a law enforcement officer is prosecuted for the death of a fleeing sispect. In Georgia, a police officer had a fatal encounter with [a man who was fleeing](https://apnews.com/ae503a6672a34aff873260456224652f/Manslaughter-charge:-Georgia-officer-shot-fleeing-black-man) was charged with manslaughter. A police officer was charged for the shooting and death of a [teenager who fleed after a traffic stop](https://apnews.com/f721e40873ef4b06ac2c5e6c0200d0f8/Officer-charged-in-death-of-black-teen-who-was-shot-in-back). 
 
 This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.
 
 # Type of Fleeing 
-Figure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing are these individuals using. 
+Figure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using. 
 
 ```{r}
 #proportion are killed while attempting to flee
@@ -93,7 +93,7 @@ Figure 1
 
 
 
-
+leaving this for right 
 
 
 

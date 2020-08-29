@@ -1,0 +1,114 @@
+---
+title: Threat and Race
+author: 
+- admin
+date: '2020-08-28'
+slug: threat-and-race
+categories:
+  - R
+tags:
+  - R Markdown
+  - plot
+  - ANOVA
+  - time
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-08-28T16:00:15-07:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+
+library(modelr)
+library(infer)
+library(knitr)
+library(broom)
+library(lubridate)
+library(tidyverse)
+library(multcompView)
+library(gganimate)
+library(gapminder)
+library(DT)
+library(widgetframe)
+library(htmlwidgets)
+library(htmltools)
+
+shootings <- read.csv("https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv", header = T)
+
+shootings <- shootings %>% 
+  mutate(date = lubridate::ymd(date)) %>%   # Convert date to Lubridate
+  mutate(age = round(age)) %>%              # Make all ages integers
+  mutate(gender = as.factor(gender),        # Factorize
+         race = as.factor(race),
+         signs_of_mental_illness = as.factor(signs_of_mental_illness),
+         threat_level = as.factor(threat_level),
+         flee = as.factor(flee),
+         body_camera = as.factor(body_camera) )
+shootings <- shootings %>%
+  # Replace abbreviated race identifier with race
+  mutate(race = as.factor( ifelse(race=="W","White",
+                  ifelse(race=="B","Black",
+                  ifelse(race=="H", "Hispanic",
+                  ifelse(race=="A", "Asian",
+                  ifelse(race=="N", "Native",
+                  ifelse(race=="O", "Other", "Not Recorded")))))))) %>%
+  mutate(year = year(date)) %>%
+  mutate(flee = as.factor( ifelse(flee=="Car","Car",
+                  ifelse(flee=="Foot","Foot",
+                  ifelse(flee=="Not fleeing", "Not Fleeing",
+                  ifelse(flee=="Other", "Other", "Not Recorded"))))))
+```
+
+# Threat and Race
+There has always been a debate between the links of fatal police shootings and victims. There has even been insinuations that race has an effect on the threatening nature of these individuals. This topic often sparks outrage within the black and POC communities and within law enforcement. 
+
+I'm going to try to explore this sensitive topic and try to make some inferential findings.
+
+# The Data
+The dataset can be found [here](https://github.com/washingtonpost/data-police-shootings).
+
+We have three variables to look at: "attack", "other", and "undetermined". Attack constitutes as the individual was reported to have posed immediate threat to the officer. "Other" is every other level of threat and "undetermined" is for any circumstance that through the vetting process, threat level could not be determined. 
+Keep in mind how the level of threat is determined, as explained in the home page.
+
+Let's look at the visualization of the raw numbers/counts. Figure 1 below shows the level of reported threat by race. 
+
+```{r}
+shootings %>%
+  mutate(count = 1) %>%
+  ggplot() +
+  geom_bar(mapping = aes(x = threat_level, fill = race), position = "dodge") +
+  facet_wrap(~threat_level, scales = "free") + 
+  ggtitle("Raw Amounts of Threat Level") +
+  xlab("Threat Level") +
+  ylab("Count")
+```
+Figure 1.
+*Amount of Fatal Police Shootings by Race since 2015* 
+
+All three graphs look identical the only visual difference is the volume of counts. I think in this case, looking at the proportions will be more inferenital.
+
+```{r}
+r.proportion <- shootings %>%
+  mutate(count = 1) %>%
+  mutate(year = year(date)) %>%
+  aggregate(count ~ threat_level + race + year, data = ., sum) %>%
+  filter(threat_level == "attack") %>%
+  group_by(year) %>%
+  mutate(race.proportion = count / sum(count))
+r.proportion %>%
+  ggplot() +
+  geom_boxplot(mapping = aes(x = race, y = race.proportion)) +
+  geom_point(mapping = aes(x = race, y = race.proportion, color = year))
+
+
+```
+
+
+

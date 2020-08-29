@@ -55,7 +55,7 @@
     </item>
     
     <item>
-      <title>Looking at Fatal Police Shootings and Victims Fleeing</title>
+      <title>Fleeing</title>
       <link>/post/fatal-police-shooting-and-fleeing/</link>
       <pubDate>Fri, 28 Aug 2020 00:00:00 +0000</pubDate>
       <guid>/post/fatal-police-shooting-and-fleeing/</guid>
@@ -64,12 +64,12 @@
 
 &lt;div id=&#34;fleeing-and-some-implications&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Fleeing and Some Implications&lt;/h1&gt;
-&lt;p&gt;Growing up in Stockton, Ca it’s never really surprising to hear about a police chase in where the suspect gets shot and then passes away. It’s not surprising when we hear of people fleeing from the police when the situation escalates. What is surprising to hear is when a law enforcement officer is prosecuted for the death of a fleeing sispect. In Georgia, a police officer had a fatal encounter with &lt;a href=&#34;https://apnews.com/ae503a6672a34aff873260456224652f/Manslaughter-charge:-Georgia-officer-shot-fleeing-black-man&#34;&gt;a man who was fleeing&lt;/a&gt; was charged with manslaughter. A police officer was charged for shooting and death of a &lt;a href=&#34;https://apnews.com/f721e40873ef4b06ac2c5e6c0200d0f8/Officer-charged-in-death-of-black-teen-who-was-shot-in-back&#34;&gt;teenager who fleed after a traffic stop&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It’s never really surprising to hear about a police chase in where the suspect gets shot and then passes away. It’s not surprising when we hear of people fleeing from the police when the situation escalates. What is surprising to hear is when a law enforcement officer is prosecuted for the death of a fleeing sispect. In Georgia, a police officer had a fatal encounter with &lt;a href=&#34;https://apnews.com/ae503a6672a34aff873260456224652f/Manslaughter-charge:-Georgia-officer-shot-fleeing-black-man&#34;&gt;a man who was fleeing&lt;/a&gt; was charged with manslaughter. A police officer was charged for the shooting and death of a &lt;a href=&#34;https://apnews.com/f721e40873ef4b06ac2c5e6c0200d0f8/Officer-charged-in-death-of-black-teen-who-was-shot-in-back&#34;&gt;teenager who fleed after a traffic stop&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;type-of-fleeing&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Type of Fleeing&lt;/h1&gt;
-&lt;p&gt;Figure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing are these individuals using.&lt;/p&gt;
+&lt;p&gt;Figure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#proportion are killed while attempting to flee
 shootings %&amp;gt;%
   mutate(count = 1) %&amp;gt;%
@@ -83,6 +83,54 @@ shootings %&amp;gt;%
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-fatal-police-shooting-and-fleeing.en_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 1
 &lt;em&gt;The proportion of fatal police shootings by flee method over time.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;leaving this for right&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Threat and Race</title>
+      <link>/post/threat-and-race/</link>
+      <pubDate>Fri, 28 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>/post/threat-and-race/</guid>
+      <description>
+
+
+&lt;div id=&#34;threat-and-race&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Threat and Race&lt;/h1&gt;
+&lt;p&gt;There has always been a debate between the links of fatal police shootings and victims. There has even been insinuations that race has an effect on the threatening nature of these individuals. This topic often sparks outrage within the black and POC communities and within law enforcement.&lt;/p&gt;
+&lt;p&gt;I’m going to try to explore this sensitive topic and try to make some inferential findings.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;The Data&lt;/h1&gt;
+&lt;p&gt;The dataset can be found &lt;a href=&#34;https://github.com/washingtonpost/data-police-shootings&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We have three variables to look at: “attack”, “other”, and “undetermined”. Attack constitutes as the individual was reported to have posed immediate threat to the officer. “Other” is every other level of threat and “undetermined” is for any circumstance that through the vetting process, threat level could not be determined.
+Keep in mind how the level of threat is determined, as explained in the home page.&lt;/p&gt;
+&lt;p&gt;Let’s look at the visualization of the raw numbers/counts. Figure 1 below shows the level of reported threat by race.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;shootings %&amp;gt;%
+  mutate(count = 1) %&amp;gt;%
+  ggplot() +
+  geom_bar(mapping = aes(x = threat_level, fill = race), position = &amp;quot;dodge&amp;quot;) +
+  facet_wrap(~threat_level, scales = &amp;quot;free&amp;quot;) + 
+  ggtitle(&amp;quot;Raw Amounts of Threat Level&amp;quot;) +
+  xlab(&amp;quot;Threat Level&amp;quot;) +
+  ylab(&amp;quot;Count&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;
+Figure 1.
+&lt;em&gt;Amount of Fatal Police Shootings by Race since 2015&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;All three graphs look identical the only visual difference is the volume of counts. I think in this case, looking at the proportions will be more inferenital.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r.proportion &amp;lt;- shootings %&amp;gt;%
+  mutate(count = 1) %&amp;gt;%
+  mutate(year = year(date)) %&amp;gt;%
+  aggregate(count ~ threat_level + race + year, data = ., sum) %&amp;gt;%
+  filter(threat_level == &amp;quot;attack&amp;quot;) %&amp;gt;%
+  group_by(year) %&amp;gt;%
+  mutate(race.proportion = count / sum(count))
+r.proportion %&amp;gt;%
+  ggplot() +
+  geom_boxplot(mapping = aes(x = race, y = race.proportion)) +
+  geom_point(mapping = aes(x = race, y = race.proportion, color = year))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -212,7 +260,7 @@ data.head()
 &lt;p&gt;Demo:&lt;/p&gt;
 
 
-&lt;div id=&#34;chart-865491723&#34; class=&#34;chart pb-3&#34; style=&#34;max-width: 100%; margin: auto;&#34;&gt;&lt;/div&gt;
+&lt;div id=&#34;chart-196378245&#34; class=&#34;chart pb-3&#34; style=&#34;max-width: 100%; margin: auto;&#34;&gt;&lt;/div&gt;
 &lt;script&gt;
   (function() {
     let a = setInterval( function() {
@@ -222,7 +270,7 @@ data.head()
       clearInterval( a );
 
       Plotly.d3.json(&#34;./line-chart.json&#34;, function(chart) {
-        Plotly.plot(&#39;chart-865491723&#39;, chart.data, chart.layout, {responsive: true});
+        Plotly.plot(&#39;chart-196378245&#39;, chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();

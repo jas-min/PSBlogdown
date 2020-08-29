@@ -1,0 +1,63 @@
+---
+title: Threat and Race
+author: 
+- admin
+date: '2020-08-28'
+slug: threat-and-race
+categories:
+  - R
+tags:
+  - R Markdown
+  - plot
+  - ANOVA
+  - time
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-08-28T16:00:15-07:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+
+<div id="threat-and-race" class="section level1">
+<h1>Threat and Race</h1>
+<p>There has always been a debate between the links of fatal police shootings and victims. There has even been insinuations that race has an effect on the threatening nature of these individuals. This topic often sparks outrage within the black and POC communities and within law enforcement.</p>
+<p>I’m going to try to explore this sensitive topic and try to make some inferential findings.</p>
+</div>
+<div id="the-data" class="section level1">
+<h1>The Data</h1>
+<p>The dataset can be found <a href="https://github.com/washingtonpost/data-police-shootings">here</a>.</p>
+<p>We have three variables to look at: “attack”, “other”, and “undetermined”. Attack constitutes as the individual was reported to have posed immediate threat to the officer. “Other” is every other level of threat and “undetermined” is for any circumstance that through the vetting process, threat level could not be determined.
+Keep in mind how the level of threat is determined, as explained in the home page.</p>
+<p>Let’s look at the visualization of the raw numbers/counts. Figure 1 below shows the level of reported threat by race.</p>
+<pre class="r"><code>shootings %&gt;%
+  mutate(count = 1) %&gt;%
+  ggplot() +
+  geom_bar(mapping = aes(x = threat_level, fill = race), position = &quot;dodge&quot;) +
+  facet_wrap(~threat_level, scales = &quot;free&quot;) + 
+  ggtitle(&quot;Raw Amounts of Threat Level&quot;) +
+  xlab(&quot;Threat Level&quot;) +
+  ylab(&quot;Count&quot;)</code></pre>
+<p><img src="/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-1-1.png" width="672" />
+Figure 1.
+<em>Amount of Fatal Police Shootings by Race since 2015</em></p>
+<p>All three graphs look identical the only visual difference is the volume of counts. I think in this case, looking at the proportions will be more inferenital.</p>
+<pre class="r"><code>r.proportion &lt;- shootings %&gt;%
+  mutate(count = 1) %&gt;%
+  mutate(year = year(date)) %&gt;%
+  aggregate(count ~ threat_level + race + year, data = ., sum) %&gt;%
+  filter(threat_level == &quot;attack&quot;) %&gt;%
+  group_by(year) %&gt;%
+  mutate(race.proportion = count / sum(count))
+r.proportion %&gt;%
+  ggplot() +
+  geom_boxplot(mapping = aes(x = race, y = race.proportion)) +
+  geom_point(mapping = aes(x = race, y = race.proportion, color = year))</code></pre>
+<p><img src="/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
