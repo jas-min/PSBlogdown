@@ -30,7 +30,8 @@
   
     
   
-  <meta name="description" content="Fleeing and Some ImplicationsIt’s never really surprising to hear about a police chase in where the suspect gets shot and then passes away. It’s not surprising when we hear of people fleeing from the police when the situation escalates.">
+  <meta name="description" content="This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.
+Type of FleeingFigure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/fatal-police-shooting-and-fleeing/">
@@ -256,13 +257,14 @@
   <meta property="og:site_name" content="Final Project - Police Shootings in the US">
   <meta property="og:url" content="/post/fatal-police-shooting-and-fleeing/">
   <meta property="og:title" content="Fleeing | Final Project - Police Shootings in the US">
-  <meta property="og:description" content="Fleeing and Some ImplicationsIt’s never really surprising to hear about a police chase in where the suspect gets shot and then passes away. It’s not surprising when we hear of people fleeing from the police when the situation escalates."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
+  <meta property="og:description" content="This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.
+Type of FleeingFigure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
   
     
       <meta property="article:published_time" content="2020-08-28T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2020-08-28T23:47:42-07:00">
+    <meta property="article:modified_time" content="2020-08-30T16:48:22-07:00">
   
 
   
@@ -291,7 +293,7 @@
   "headline": "Fleeing",
   
   "datePublished": "2020-08-28T00:00:00Z",
-  "dateModified": "2020-08-28T23:47:42-07:00",
+  "dateModified": "2020-08-30T16:48:22-07:00",
   
   "author": {
     "@type": "Person",
@@ -306,7 +308,7 @@
       "url": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
     }
   },
-  "description": "Fleeing and Some Implications\rIt’s never really surprising to hear about a police chase in where the suspect gets shot and then passes away. It’s not surprising when we hear of people fleeing from the police when the situation escalates."
+  "description": "This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.\nType of Fleeing\rFigure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using."
 }
 </script>
 
@@ -611,7 +613,7 @@
           Last updated on
       
     
-    Aug 28, 2020
+    Aug 30, 2020
   </span>
   
 
@@ -663,11 +665,7 @@
       
 
 
-<div id="fleeing-and-some-implications" class="section level1">
-<h1>Fleeing and Some Implications</h1>
-<p>It’s never really surprising to hear about a police chase in where the suspect gets shot and then passes away. It’s not surprising when we hear of people fleeing from the police when the situation escalates. What is surprising to hear is when a law enforcement officer is prosecuted for the death of a fleeing sispect. In Georgia, a police officer had a fatal encounter with <a href="https://apnews.com/ae503a6672a34aff873260456224652f/Manslaughter-charge:-Georgia-officer-shot-fleeing-black-man">a man who was fleeing</a> was charged with manslaughter. A police officer was charged for the shooting and death of a <a href="https://apnews.com/f721e40873ef4b06ac2c5e6c0200d0f8/Officer-charged-in-death-of-black-teen-who-was-shot-in-back">teenager who fleed after a traffic stop</a>.</p>
 <p>This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.</p>
-</div>
 <div id="type-of-fleeing" class="section level1">
 <h1>Type of Fleeing</h1>
 <p>Figure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using.</p>
@@ -680,11 +678,37 @@ shootings %&gt;%
   ggplot() +
     geom_line(mapping = aes(x = year, y = proportion, color = flee)) +
     ggtitle(&quot;Proportion of Fatal Police Shooting by Flee Method&quot;) + 
-    xlab(&quot;Year&quot;) + ylab(&quot;Proportion&quot;)</code></pre>
+    xlab(&quot;Year&quot;) + ylab(&quot;Proportion&quot;) + theme_bw()</code></pre>
 <p><img src="/post/2020-08-28-fatal-police-shooting-and-fleeing.en_files/figure-html/unnamed-chunk-1-1.png" width="672" />
-Figure 1
+Figure 1.
 <em>The proportion of fatal police shootings by flee method over time.</em></p>
-<p>leaving this for right</p>
+<p>Figure 1 depicts the proportion of fleeing by car decreasing and every other method is seen increasing, in recent. The proportion of the incidents where fleeing method is not recorded is increasing every year, almost to the same degree that the “Not Fleeing” method is decreasing, this should be taken into account.</p>
+<pre class="r"><code>shootings %&gt;%
+  mutate(count = 1) %&gt;%
+  filter(armed == &quot;unarmed&quot;) %&gt;%
+  aggregate(count ~ flee + year + armed, data = ., sum) %&gt;%
+  group_by(year) %&gt;%
+  mutate(proportion = count / sum(count)) %&gt;%
+  ggplot(mapping = aes(x=year, y = proportion, color = flee)) +
+  geom_line() +
+  ggtitle(&quot;Breakdown of Unarmed Victims&quot;) + xlab(&quot;Year&quot;) + ylab(&quot;Proportion&quot;) + theme_bw() </code></pre>
+<p><img src="/post/2020-08-28-fatal-police-shooting-and-fleeing.en_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+Figure 2. <em>Accounts for the proportion of method of fleeing of unarmed victims of fatal police shootings</em></p>
+<pre class="r"><code>unarmed &lt;- shootings %&gt;%
+  mutate(count = 1) %&gt;%
+  filter(armed == &quot;unarmed&quot;) %&gt;%
+  aggregate(count ~ flee + year + armed, data = ., sum) %&gt;%
+  group_by(year) %&gt;%
+  mutate(proportion = count / sum(count)) %&gt;%
+  select(-armed, -count) %&gt;%
+  datatable()
+
+
+htmlwidgets::saveWidget(unarmed, file = &quot;unarmed.html&quot;, selfcontained = TRUE)</code></pre>
+<iframe seamless src="../unarmed.html" width="150%" height="500">
+</iframe>
+<p>Table 1.
+<em>A table of the proportion of unarmed victims by fleeing method</em></p>
 </div>
 
     </div>
