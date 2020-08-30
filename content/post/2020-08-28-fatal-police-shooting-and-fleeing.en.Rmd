@@ -85,7 +85,7 @@ shootings %>%
   ggplot() +
     geom_line(mapping = aes(x = year, y = proportion, color = flee)) +
     ggtitle("Proportion of Fatal Police Shooting by Flee Method") + 
-    xlab("Year") + ylab("Proportion")
+    xlab("Year") + ylab("Proportion") 
 
 ```
 Figure 1

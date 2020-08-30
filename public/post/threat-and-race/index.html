@@ -262,7 +262,7 @@
     
       <meta property="article:published_time" content="2020-08-28T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2020-08-28T23:47:42-07:00">
+    <meta property="article:modified_time" content="2020-08-29T16:11:10-07:00">
   
 
   
@@ -291,7 +291,7 @@
   "headline": "Threat and Race",
   
   "datePublished": "2020-08-28T00:00:00Z",
-  "dateModified": "2020-08-28T23:47:42-07:00",
+  "dateModified": "2020-08-29T16:11:10-07:00",
   
   "author": {
     "@type": "Person",
@@ -448,6 +448,43 @@
         
 
         <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>About</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
           <a class="nav-link " href="/#posts"><span>Posts</span></a>
         </li>
 
@@ -485,7 +522,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#featured"><span>Publications</span></a>
+          <a class="nav-link " href="/#slider"><span>Resources</span></a>
         </li>
 
         
@@ -574,7 +611,7 @@
           Last updated on
       
     
-    Aug 28, 2020
+    Aug 29, 2020
   </span>
   
 
@@ -666,36 +703,67 @@ r.proportion %&gt;%
 Figure 2.
 <em>Box plot and distribution of the proportions of victims who are recorded to have posed a threat to an officer’s life by race from 2015 to current.</em></p>
 <pre class="r"><code>r.proportion %&gt;%
-  lm(formula = race.proportion ~ race, data = .) -&gt; model
-
-summary(model)
+  lm(formula = race.proportion ~ race * year, data = .) -&gt; model
+r.proportion
+## # A tibble: 42 x 5
+## # Groups:   year [6]
+##    threat_level race      year count race.proportion
+##    &lt;fct&gt;        &lt;fct&gt;    &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt;
+##  1 attack       Asian     2015    10         0.0137 
+##  2 attack       Black     2015   183         0.25   
+##  3 attack       Hispanic  2015   106         0.145  
+##  4 attack       Native    2015     6         0.00820
+##  5 attack       NR        2015    21         0.0287 
+##  6 attack       Other     2015     9         0.0123 
+##  7 attack       White     2015   397         0.542  
+##  8 attack       Asian     2016     5         0.00923
+##  9 attack       Black     2016   147         0.271  
+## 10 attack       Hispanic  2016    88         0.162  
+## # ... with 32 more rows
+r.proportion %&gt;%
+  ggplot(aes(x= race, y = race.proportion, color = year)) +
+    geom_point() +
+    stat_smooth(method = &quot;lm&quot;)
+## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>summary(model)
 ## 
 ## Call:
-## lm(formula = race.proportion ~ race, data = .)
+## lm(formula = race.proportion ~ race * year, data = .)
 ## 
 ## Residuals:
 ##       Min        1Q    Median        3Q       Max 
-## -0.092653 -0.004648 -0.000999  0.011827  0.183269 
+## -0.044770 -0.005817  0.000253  0.006384  0.061749 
 ## 
 ## Coefficients:
-##                   Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)       0.014002   0.018970   0.738 0.465378    
-## raceBlack         0.227499   0.026828   8.480 5.26e-10 ***
-## raceHispanic      0.133036   0.026828   4.959 1.82e-05 ***
-## raceNative       -0.001813   0.026828  -0.068 0.946506    
-## raceNot Recorded  0.105896   0.026828   3.947 0.000364 ***
-## raceOther        -0.005536   0.026828  -0.206 0.837706    
-## raceWhite         0.442904   0.026828  16.509  &lt; 2e-16 ***
+##                     Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       -8.489e-01  1.091e+01  -0.078 0.938515    
+## raceBlack          2.009e+01  1.542e+01   1.303 0.203255    
+## raceHispanic       1.224e+01  1.542e+01   0.793 0.434228    
+## raceNative         2.786e+00  1.542e+01   0.181 0.857969    
+## raceNR            -9.710e+01  1.542e+01  -6.295 8.30e-07 ***
+## raceOther          3.337e+00  1.542e+01   0.216 0.830268    
+## raceWhite          6.558e+01  1.542e+01   4.252 0.000213 ***
+## year               4.277e-04  5.406e-03   0.079 0.937503    
+## raceBlack:year    -9.848e-03  7.645e-03  -1.288 0.208271    
+## raceHispanic:year -6.000e-03  7.645e-03  -0.785 0.439186    
+## raceNative:year   -1.382e-03  7.645e-03  -0.181 0.857877    
+## raceNR:year        4.818e-02  7.645e-03   6.302 8.15e-07 ***
+## raceOther:year    -1.657e-03  7.645e-03  -0.217 0.829991    
+## raceWhite:year    -3.229e-02  7.645e-03  -4.223 0.000230 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 0.04647 on 35 degrees of freedom
-## Multiple R-squared:  0.9273, Adjusted R-squared:  0.9148 
-## F-statistic:  74.4 on 6 and 35 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 0.02262 on 28 degrees of freedom
+## Multiple R-squared:  0.9862, Adjusted R-squared:  0.9798 
+## F-statistic: 154.2 on 13 and 28 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>ANOVA.threat = aov(model)
 
 # Tukey test to study each pair of treatment :
 TUKEY &lt;- TukeyHSD(x=ANOVA.threat, &#39;race&#39;, conf.level=0.95, ordered = TRUE)
+## Warning in replications(paste(&quot;~&quot;, xx), data = mf): non-factors ignored: year
+## Warning in replications(paste(&quot;~&quot;, xx), data = mf): non-factors ignored: race,
+## year
 # Tuckey test representation :
 plot(TUKEY , las=1 , col=&quot;brown&quot;)</code></pre>
 <p><img src="/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
@@ -707,30 +775,30 @@ plot(TUKEY , las=1 , col=&quot;brown&quot;)</code></pre>
 ## Fit: aov(formula = model)
 ## 
 ## $race
-##                              diff         lwr        upr     p adj
-## Native-Other          0.003723252 -0.08014022 0.08758673 0.9999993
-## Asian-Other           0.005536265 -0.07832721 0.08939974 0.9999925
-## Not Recorded-Other    0.111432473  0.02756900 0.19529595 0.0034425
-## Hispanic-Other        0.138572099  0.05470863 0.22243557 0.0001832
-## Black-Other           0.233035326  0.14917185 0.31689880 0.0000000
-## White-Other           0.448440663  0.36457719 0.53230414 0.0000000
-## Asian-Native          0.001813012 -0.08205046 0.08567649 1.0000000
-## Not Recorded-Native   0.107709221  0.02384575 0.19157269 0.0050606
-## Hispanic-Native       0.134848847  0.05098537 0.21871232 0.0002764
-## Black-Native          0.229312074  0.14544860 0.31317555 0.0000000
-## White-Native          0.444717410  0.36085394 0.52858088 0.0000000
-## Not Recorded-Asian    0.105896208  0.02203274 0.18975968 0.0060919
-## Hispanic-Asian        0.133035834  0.04917236 0.21689931 0.0003375
-## Black-Asian           0.227499061  0.14363559 0.31136253 0.0000000
-## White-Asian           0.442904398  0.35904093 0.52676787 0.0000000
-## Hispanic-Not Recorded 0.027139626 -0.05672385 0.11100310 0.9478976
-## Black-Not Recorded    0.121602853  0.03773938 0.20546633 0.0011716
-## White-Not Recorded    0.337008190  0.25314472 0.42087166 0.0000000
-## Black-Hispanic        0.094463227  0.01059975 0.17832670 0.0188790
-## White-Hispanic        0.309868564  0.22600509 0.39373204 0.0000000
-## White-Black           0.215405337  0.13154186 0.29926881 0.0000000</code></pre>
+##                        diff         lwr        upr     p adj
+## Native-Other    0.003723252 -0.03769474 0.04514125 0.9999473
+## Asian-Other     0.005536265 -0.03588173 0.04695426 0.9994714
+## NR-Other        0.111432473  0.07001448 0.15285047 0.0000001
+## Hispanic-Other  0.138572099  0.09715410 0.17999009 0.0000000
+## Black-Other     0.233035326  0.19161733 0.27445332 0.0000000
+## White-Other     0.448440663  0.40702267 0.48985866 0.0000000
+## Asian-Native    0.001813012 -0.03960498 0.04323101 0.9999993
+## NR-Native       0.107709221  0.06629123 0.14912722 0.0000001
+## Hispanic-Native 0.134848847  0.09343085 0.17626684 0.0000000
+## Black-Native    0.229312074  0.18789408 0.27073007 0.0000000
+## White-Native    0.444717410  0.40329941 0.48613541 0.0000000
+## NR-Asian        0.105896208  0.06447821 0.14731420 0.0000002
+## Hispanic-Asian  0.133035834  0.09161784 0.17445383 0.0000000
+## Black-Asian     0.227499061  0.18608107 0.26891706 0.0000000
+## White-Asian     0.442904398  0.40148640 0.48432239 0.0000000
+## Hispanic-NR     0.027139626 -0.01427837 0.06855762 0.3917831
+## Black-NR        0.121602853  0.08018486 0.16302085 0.0000000
+## White-NR        0.337008190  0.29559019 0.37842619 0.0000000
+## Black-Hispanic  0.094463227  0.05304523 0.13588122 0.0000014
+## White-Hispanic  0.309868564  0.26845057 0.35128656 0.0000000
+## White-Black     0.215405337  0.17398734 0.25682333 0.0000000</code></pre>
 <pre class="r"><code># I need to group the treatments that are not different each other together.
-generate_label_df &lt;- function(TUKEY, variable){
+label_df &lt;- function(TUKEY, variable){
  
      # Extract labels and factor levels from Tukey post-hoc 
      levels &lt;- TUKEY[[variable]][,4]
@@ -743,7 +811,7 @@ generate_label_df &lt;- function(TUKEY, variable){
      }
  
 # Apply the function on my dataset
-LABELS &lt;- generate_label_df(TUKEY , &quot;race&quot;)
+LABELS &lt;- label_df(TUKEY , &quot;race&quot;)
  
  
 # A panel of colors to draw each group with the same color :
