@@ -58,7 +58,7 @@ shootings <- shootings %>%
                   ifelse(race=="H", "Hispanic",
                   ifelse(race=="A", "Asian",
                   ifelse(race=="N", "Native",
-                  ifelse(race=="O", "Other", "Not Recorded")))))))) %>%
+                  ifelse(race=="O", "Other", "NR")))))))) %>%
   mutate(year = year(date)) %>%
   mutate(flee = as.factor( ifelse(flee=="Car","Car",
                   ifelse(flee=="Foot","Foot",
@@ -116,8 +116,12 @@ Figure 2.
 
 ```{r}
 r.proportion %>%
-  lm(formula = race.proportion ~ race, data = .) -> model
-
+  lm(formula = race.proportion ~ race * year, data = .) -> model
+r.proportion
+r.proportion %>%
+  ggplot(aes(x= race, y = race.proportion, color = year)) +
+    geom_point() +
+    stat_smooth(method = "lm")
 summary(model)
 ```
 
@@ -142,7 +146,7 @@ TUKEY
 
 ```{r}
 # I need to group the treatments that are not different each other together.
-generate_label_df <- function(TUKEY, variable){
+label_df <- function(TUKEY, variable){
  
      # Extract labels and factor levels from Tukey post-hoc 
      levels <- TUKEY[[variable]][,4]
@@ -155,7 +159,7 @@ generate_label_df <- function(TUKEY, variable){
      }
  
 # Apply the function on my dataset
-LABELS <- generate_label_df(TUKEY , "race")
+LABELS <- label_df(TUKEY , "race")
  
  
 # A panel of colors to draw each group with the same color :
