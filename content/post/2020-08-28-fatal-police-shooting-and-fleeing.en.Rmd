@@ -121,7 +121,8 @@ unarmed <- shootings %>%
 htmlwidgets::saveWidget(unarmed, file = "unarmed.html", selfcontained = TRUE)
 
 ```
-<iframe seamless src="../unarmed.html" width="150%" height="500"></iframe>
+<iframe seamless src="../unarmed.html" width="100%" height="500"></iframe>
+
 Table 1. 
 *A table of the proportion of unarmed victims by fleeing method*
 
