@@ -26,7 +26,7 @@ projects: []
 
 <div id="mental-illness" class="section level1">
 <h1>Mental Illness</h1>
-<p>A statistic that many post on their social media stories cites that people with mental illness are 15 times more likely to be shot in a police encounter than the lay person. We can think about people like Shukri Ali Said who’s sister called 911 for aid when Said had a mental break. Police had found Said at an intersection with a knife and shot her 5 times, resulting in her death. We can think about Saheed Vassell. A man with a recorded mental illness, who also had a fatal police shooting. Vassell pointed a pipe at a police officer and was shot. We can think about the many people with mental and intellectual illnesses who had fatal police encounters and think about the possible different roots of the problem; the history of social stigma of treatment, to the processes of deinstitutionalization, to the defunding of existing community services like education, affordable housing, social and health services.</p>
+<p>There’s a statistic that people mental illness are 15 times more likely to be shot in a police encounter than the lay person. We can think about people like Shukri Ali Said who’s sister called 911 for aid when Said had a mental break. Police had found Said at an intersection with a knife and shot her 5 times, resulting in her death. We can think about Saheed Vassell. A man with a recorded mental illness, who also had a fatal police shooting. Vassell pointed a pipe at a police officer and was shot. We can think about the many people with mental and intellectual illnesses who had fatal police encounters and think about the possible different roots of the problem; the history of social stigma of treatment, to the processes of deinstitutionalization, to the defunding of existing community services like education, affordable housing, social and health services.</p>
 <p>This post is going to explore the effects of mental illness and fatal police encounters.</p>
 </div>
 <div id="general-statistics" class="section level1">
@@ -73,11 +73,11 @@ Figure 1
 </iframe>
 <p>Table 2
 <em>Mean of police shooting by race aggregated by year.</em></p>
-<p>In the two tables shown above, we get a good picture of the general look of fatal police encounters by signs of mental illness, from the years 2015 to current day. White people make up more than 70% of the US population, so it makes sense that white people will make up the most of police shootings in just raw numbers. Look at Figure 1 for the example. If we do some data crunching, we wil see something interesting. Since 2015, even though white people make up more than 70% of the population, 45% of fatal shootings involve white victims, which is disproportionate. If we factor in mental illness, overall, almost 30% of the white victims of fatal police shootings showed signs of mental illness. Of black victims: 14.3%, of asian: 24.7%, of hispanic: 17.2%, of native american: 17.9%. Overall, 28.9% of fatal police shooting victims are recorded as showing signs of mental illness.</p>
+<p>In the two tables shown above, we get a good picture fatal police shootings by signs of mental illness, from the years 2015 to current day. White people make up more than 70% of the US population, so it makes sense that white people will make up the most of police shootings in just raw numbers. Look at Figure 1 for the example. If we do some data crunching, we wil see something interesting. Since 2015, even though white people make up more than 70% of the population, 45% of fatal shootings involve white victims, which is disproportionate. If we factor in mental illness, overall, almost 30% of the white victims of fatal police shootings showed signs of mental illness. Of black victims: 14.3%, of asian: 24.7%, of hispanic: 17.2%, of native american: 17.9%. Overall, 28.9% of fatal police shooting victims are recorded as showing signs of mental illness.</p>
 </div>
-<div id="were-there-attempts-of-de-escalation" class="section level1">
-<h1>Were there attempts of de-escalation?</h1>
-<p>If more than 1 in 4 victims of fatal police shootings involve mental illness, were there attempts to subdue these victims besides shooting? The dataset I’m working with involve whether a taser was used to de-escalate along with shooting via the variable ‘manner_of_death’. There were only two categories, “shot”, and, “shot and Tasered”.</p>
+<div id="de-escalation" class="section level1">
+<h1>De-escalation?</h1>
+<p>If more than 1 in 4 victims of fatal police shootings involve mental illness, were there attempts to subdue these victims besides shooting? The dataset I’m working with involve whether a taser was used to de-escalate along with shooting via the variable <code>manner_of_death</code>. There were only two categories, <code>shot</code>, and, <code>shot and Tasered</code>.</p>
 <pre class="r"><code>shootings %&gt;%
   filter(signs_of_mental_illness == &quot;True&quot;) %&gt;%
   mutate(count = 1) %&gt;%
@@ -88,8 +88,8 @@ Figure 1
   geom_line(mapping = aes(x = year, y = prop, color = manner_of_death)) +
   theme_bw() + xlab(&quot;Year&quot;) + ylab(&quot;Proportion&quot;) + ggtitle(&quot;Victims with Mental Illness&quot;)</code></pre>
 <p><img src="/post/2020-08-26-exploration-of-mental-illness-and-fatal-police-shootings.en_files/figure-html/unnamed-chunk-7-1.png" width="672" />
-Figure 2</p>
-<p>In figure 2, we see that with the fatal police shootings involving victims that showed signs of mental illness, less than 10% in every year have on record that the police tried to deploy a taser as a means of subduing the victim. we actually see a dip in 2018 and is slowly starting to rise again. We are only through a little more than half of the year, but this dataset is updated real time, so this graph will always be current.</p>
+Figure 1.</p>
+<p>In Figure 2, we see that with the fatal police shootings involving victims that showed signs of mental illness, less than 10% in every year have on record that the police tried to deploy a taser as a means of subduing the victim. we actually see a dip in 2018 and is slowly starting to rise again. We are only through a little more than half of the year, but this dataset is updated real time, so this graph will always be current.</p>
 <pre class="r"><code>shootings %&gt;%
   filter(signs_of_mental_illness == &quot;True&quot;, manner_of_death == &quot;shot and Tasered&quot;) %&gt;%
   mutate(count = 1) %&gt;%
