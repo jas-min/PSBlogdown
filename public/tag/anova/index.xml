@@ -34,7 +34,7 @@ Keep in mind how the level of threat is determined, as explained in the home pag
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 1.
 &lt;em&gt;Amount of Fatal Police Shootings by Race since 2015&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;All three graphs look identical. The only visual difference is the volume of the counts. I think in this case, looking at the proportions will be more inferenital.&lt;/p&gt;
+&lt;p&gt;All three graphs look identical. The only visual difference is the volume of the counts. I think in this case, looking at the proportions will be more inferential.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;when-victims-are-threatening&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;When Victims are Threatening&lt;/h1&gt;
@@ -42,7 +42,7 @@ Figure 1.
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 2.
 &lt;em&gt;Box plot and distribution of the proportions of victims who are recorded to have posed a threat to an officer’s life by race from 2015 to current.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;From 2015 to current, it is depicted trough Figure 2 that the largest proportion of those who are recorded to be threatening have tended to be White, then Black, Hispanic, Not Recorded, Asian, Native and Other, respectively.&lt;/p&gt;
+&lt;p&gt;From 2015 to current, it is depicted through Figure 2 that the largest proportion of those who are recorded to be threatening have tended to be White, then Black, Hispanic, Not Recorded, Asian, Native and Other, respectively.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ## Call:
 ## lm(formula = race.proportion ~ race, data = .)
@@ -66,7 +66,7 @@ Figure 2.
 ## Residual standard error: 0.04695 on 35 degrees of freedom
 ## Multiple R-squared:  0.9258, Adjusted R-squared:  0.9131 
 ## F-statistic: 72.76 on 6 and 35 DF,  p-value: &amp;lt; 2.2e-16&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Display 1. *Simple linear regression model where &lt;code&gt;race&lt;/code&gt; predicts the proportion of &lt;code&gt;threat_level&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Display 1. &lt;em&gt;Simple linear regression model where &lt;code&gt;race&lt;/code&gt; predicts the proportion of &lt;code&gt;threat_level&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;##             Df Sum Sq Mean Sq F value Pr(&amp;gt;F)    
 ## race         6 0.9625  0.1604   72.76 &amp;lt;2e-16 ***
 ## Residuals   35 0.0772  0.0022                   
@@ -113,7 +113,9 @@ Figure 3. &lt;em&gt;Confidence intervals of the differencein mean levels of race
 Figure 4. &lt;em&gt;Connecting letters boxplot. Different letters result in significant differences between means&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Display 1 is the output of a regression model in where we predict the proportion of the &lt;code&gt;attack&lt;/code&gt; threat level via race. Our R-squared adjusted=.9131 and the p-value=2.2e-16 meaning that the regression is an appropriate model to predict the proportion of individuals that pose a threat on an officer’s life by race.&lt;/p&gt;
 &lt;p&gt;The regression model:
-&lt;span class=&#34;math display&#34;&gt;\[ predicted(proportion) = 0.014 + 0.227(Black) + 0.1323(Hispanic) -0.002(Native) + 0.106(Not Recorded) - 0.006(Other) + 0.443(White) \]&lt;/span&gt;
+&lt;span class=&#34;math display&#34;&gt;\[ predicted(proportion) = 0.014 + 0.227(Black)\]&lt;/span&gt;
+&lt;span class=&#34;math display&#34;&gt;\[ + 0.1323(Hispanic) -0.002(Native) + 0.106(Not Recorded)\]&lt;/span&gt;
+&lt;span class=&#34;math display&#34;&gt;\[- 0.006(Other) + 0.443(White) \]&lt;/span&gt;
 91.31% of the variation in proportion of those who are threatening is explained through the differences in race, but are these differences significant?&lt;/p&gt;
 &lt;p&gt;A One-way ANOVA (Display 2) was done to test if there is at least one mean proportion from a single race is significantly different to another. The p-value&amp;lt;2e-16. We have enough statistical evidence to conclude at least one mean proportion of one race was significantly different than another race. A Tukey’s comparison post hoc to see what these differences are.&lt;/p&gt;
 &lt;p&gt;Figure 3 and Display 3 shows the output for the Tukey’s comparison of means. The output here can be hard to interpret, so a connecting letters plot was made in Figure 4. Significant differences are denoted as having different letters above each boxplot. &lt;code&gt;Asian&lt;/code&gt;, &lt;code&gt;Native&lt;/code&gt; and &lt;code&gt;Other&lt;/code&gt; all have the same letter, so their mean proportions are not significantly different from one another, though they are significantly different than the rest of the races. &lt;code&gt;Hispanic&lt;/code&gt; and the proportions of those who race is recorded as &lt;code&gt;Not Recorded&lt;/code&gt; have no significant differences to each other. &lt;code&gt;Black&lt;/code&gt; is significantly different than all other races. &lt;code&gt;White&lt;/code&gt; is also significanly different than all other races. “a” is the smallest mean proportion while “d” is the largest mean proportion.&lt;/p&gt;

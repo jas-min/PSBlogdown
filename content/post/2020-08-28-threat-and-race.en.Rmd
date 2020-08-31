@@ -92,7 +92,7 @@ shootings %>%
 Figure 1.
 *Amount of Fatal Police Shootings by Race since 2015* 
 
-All three graphs look identical. The only visual difference is the volume of the counts. I think in this case, looking at the proportions will be more inferenital. 
+All three graphs look identical. The only visual difference is the volume of the counts. I think in this case, looking at the proportions will be more inferential. 
 
 
 # When Victims are Threatening
@@ -119,7 +119,7 @@ Figure 2.
 *Box plot and distribution of the proportions of victims who are recorded to have posed a threat to an officer's life by race from 2015 to current.*
 
 
-From 2015 to current, it is depicted trough Figure 2 that the largest proportion of those who are recorded to be threatening have tended to be White, then Black, Hispanic, Not Recorded, Asian, Native and Other, respectively. 
+From 2015 to current, it is depicted through Figure 2 that the largest proportion of those who are recorded to be threatening have tended to be White, then Black, Hispanic, Not Recorded, Asian, Native and Other, respectively. 
 
 ```{r echo=FALSE}
 r.proportion %>%
@@ -128,7 +128,7 @@ r.proportion %>%
 
 summary(model)
 ```
-Display 1. *Simple linear regression model where `race` predicts the proportion of `threat_level`.
+Display 1. *Simple linear regression model where `race` predicts the proportion of `threat_level`.*
 
 
 ```{r echo=FALSE}
@@ -197,7 +197,9 @@ Figure 4. *Connecting letters boxplot. Different letters result in significant d
 Display 1 is the output of a regression model in where we predict the proportion of the `attack` threat level via race. Our R-squared adjusted=.9131 and the p-value=2.2e-16 meaning that the regression is an appropriate model to predict the proportion of individuals that pose a threat on an officer's life by race. 
 
 The regression model:
-$$ predicted(proportion) = 0.014 + 0.227(Black) + 0.1323(Hispanic) -0.002(Native) + 0.106(Not Recorded) - 0.006(Other) + 0.443(White) $$
+$$ predicted(proportion) = 0.014 + 0.227(Black)$$ 
+$$ + 0.1323(Hispanic) -0.002(Native) + 0.106(Not Recorded)$$
+$$- 0.006(Other) + 0.443(White) $$
 91.31% of the variation in proportion of those who are threatening is explained through the differences in race, but are these differences significant? 
 
 A One-way ANOVA (Display 2) was done to test if there is at least one mean proportion from a single race is significantly different to another. The p-value<2e-16. We have enough statistical evidence to conclude at least one mean proportion of one race was significantly different than another race. A Tukey's comparison post hoc to see what these differences are. 

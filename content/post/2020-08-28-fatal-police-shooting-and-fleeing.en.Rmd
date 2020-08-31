@@ -1,5 +1,5 @@
 ---
-title: Fleeing
+title: Fleeing from Law Enforcement
 author: 
   - admin
 date: '2020-08-28'
@@ -72,7 +72,7 @@ This analysis is going to explore some of the different circumstances behind fat
 # Type of Fleeing 
 Figure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using. 
 
-```{r}
+```{r echo=FALSE}
 #proportion are killed while attempting to flee
 shootings %>%
   mutate(count = 1) %>%
@@ -91,9 +91,8 @@ Figure 1.
 Figure 1 depicts the proportion of fleeing by car decreasing and every other method is seen increasing, in recent. The proportion of the incidents where fleeing method is not recorded is increasing every year, almost to the same degree that the "Not Fleeing" method is decreasing, this should be taken into account. 
 
 
-
-
-```{r}
+# Unarmed
+```{r echo=FALSE}
 shootings %>%
   mutate(count = 1) %>%
   filter(armed == "unarmed") %>%
@@ -107,7 +106,7 @@ shootings %>%
 ```
 Figure 2. *Accounts for the proportion of method of fleeing of unarmed victims of fatal police shootings*
 
-```{r}
+```{r echo=FALSE}
 unarmed <- shootings %>%
   mutate(count = 1) %>%
   filter(armed == "unarmed") %>%
@@ -125,5 +124,21 @@ htmlwidgets::saveWidget(unarmed, file = "unarmed.html", selfcontained = TRUE)
 
 Table 1. 
 *A table of the proportion of unarmed victims by fleeing method*
+
+A question proposed is if the proportion of flee method by individuals unarmed reflected Figure 1. Figure 2 is that visualization. Of those indiduals who were ivolved with fatal police shootings, most are not fleeing much like overall fatal police shootings. We also see that a larger proportion of unarmed individuals are fleeing by foot than the overall population. 
+
+
+```{r}
+
+```
+
+
+
+# Influential Findings and Comments
+Most of the victims of fatal police shootings are not fleeing from the police officers. It is the same for those individuals who are unarmed, though for those who are unarmed, a larger proportion is fleeing by `Car` or `Foot`. 
+
+What I think is very interesting to note is why is the proportion of those `flee` levels `Not Recorded` is increasing. Over time we're seeing less people not fleeing from the police and every other method is increasing to even a small degree. 
+
+
 
 
