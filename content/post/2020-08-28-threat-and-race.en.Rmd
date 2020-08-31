@@ -66,15 +66,15 @@ shootings <- shootings %>%
                   ifelse(flee=="Other", "Other", "Not Recorded"))))))
 ```
 
-# Threat and Race
-There has always been a debate between the links of fatal police shootings and victims. There has even been insinuations that race has an effect on the threatening nature of these individuals. This topic often sparks outrage within the black and POC communities and within law enforcement. 
+# Introduction
+There has always been a debate between the links of fatal police shootings and the victims. There has even been insinuations that race has an effect on the threatening nature of these individuals. That interactions with police among specific racial groups might, on average be more aggressive or carry higher risk. This topic often sparks outrage within the black and POC communities and within law enforcement. 
 
-I'm going to try to explore this sensitive topic and try to make some inferential findings.
+I'm going to to explore this sensitive topic and try to make some inferential findings.
 
 # The Data
 The dataset can be found [here](https://github.com/washingtonpost/data-police-shootings).
 
-We have three variables to look at: "attack", "other", and "undetermined". Attack constitutes as the individual was reported to have posed immediate threat to the officer. "Other" is every other level of threat and "undetermined" is for any circumstance that through the vetting process, threat level could not be determined. 
+We have three variables to look at: `attack`, `other`, and `undetermined`. Attack constitutes as the individual was reported to have posed immediate threat to the officer. `Other` is every other level of threat and `undetermined` is for any circumstance that through the vetting process, threat level could not be determined. 
 Keep in mind how the level of threat is determined, as explained in the home page.
 
 Let's look at the visualization of the raw numbers/counts. Figure 1 below shows the level of reported threat by race. 
@@ -202,10 +202,20 @@ $$ predicted(proportion) = 0.014 + 0.227(Black) + 0.1323(Hispanic) -0.002(Native
 
 A One-way ANOVA (Display 2) was done to test if there is at least one mean proportion from a single race is significantly different to another. The p-value<2e-16. We have enough statistical evidence to conclude at least one mean proportion of one race was significantly different than another race. A Tukey's comparison post hoc to see what these differences are. 
 
-Figure 3 and Display 3 shows the output for the Tukey's comparison of means. The output here can be hard to interpret, so a connecting letters plot was made in Figure 4. Significant differences are denoted as having different letters above each boxplot. `Asian`, `Native` and `Other` all have the same letter, their mean proportions are not significantly different from one another, though they are significantly different than the rest of the races. `Hispanic` and the proportions of those who race is recorded as `Not Recorded` have no significant differences to each other. `Black` is significantly different than all other races. `White` is also significanly different than all other races. 
+Figure 3 and Display 3 shows the output for the Tukey's comparison of means. The output here can be hard to interpret, so a connecting letters plot was made in Figure 4. Significant differences are denoted as having different letters above each boxplot. `Asian`, `Native` and `Other` all have the same letter, so their mean proportions are not significantly different from one another, though they are significantly different than the rest of the races. `Hispanic` and the proportions of those who race is recorded as `Not Recorded` have no significant differences to each other. `Black` is significantly different than all other races. `White` is also significanly different than all other races. "a" is the smallest mean proportion while "d" is the largest mean proportion.
 
-# Inferential Comments
+# Inferential Findings and Conclusion
 
+### Is there a correlation between threat level and race? 
+Doing a simple regression analysis, we find that a linear model in where race predicts the proportion of individuals that posed a threat to an officer life, is appropriate. We do not have significant evidence to say that there isn't a correlation, in fact we have strong statistical evidence that we do. Our model also accounts for 91.31% in the variation of predicted proportion just from race alone. 
+
+### What are these differences?
+Just like how it is described in the One-way ANOVA and Tukey's post hoc, `Asian`, `Native`, and `Other` all have predicted proportions that show no significant difference, as they are in group, "a". `Hispanic` and `Not Recorded` also show no significant difference, group, "b". `Black` and `White` are also in their own category, "c" and "d", respectfully. This means that `White` has the largest mean proportion, followed by `Black`, then the group containing `Hispanic` and `Not Recorded`, followed by the group containing `Asian`, `Native`, and `Other`. 
+
+### Conclusions
+From our findings above, we have evidence to say that the mean proportion of `White` people make up the largest proportion of those who posed an immediate threat to an officer's life in a fatal police shooting. `Asian`, `Native` and `Other` make up the smallest proportion. While we do have a correlation and a good regression model to predict the proportion based on race, I do not think it is appropriate to say that race will predict an individual's threat level. In this case correlation does not mean causation.
+
+We can find the proportion of those who pose a threat to a police officer is more likely to be White than any other race from the fact that 70% or so of the US population is White. White people also make up 40% of all the fatal police shootings It makes sense to have a higher proportion in that sense. We also have other variables to think of. Threat level is mainly based on perception and what is reported. Police can perceive an individual's threat level based on bias and make a report that the individual did pose immediate threat to the officer's life. Also, the data set includes social media and other means to record an individual's theat level. So to make inferences beyond the scope of what statistical tests done is not appropriate. 
 
 
 

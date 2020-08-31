@@ -118,15 +118,15 @@ htmlwidgets::saveWidget(unarmed, file = &amp;quot;unarmed.html&amp;quot;, selfco
       <description>
 
 
-&lt;div id=&#34;threat-and-race&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Threat and Race&lt;/h1&gt;
-&lt;p&gt;There has always been a debate between the links of fatal police shootings and victims. There has even been insinuations that race has an effect on the threatening nature of these individuals. This topic often sparks outrage within the black and POC communities and within law enforcement.&lt;/p&gt;
-&lt;p&gt;I’m going to try to explore this sensitive topic and try to make some inferential findings.&lt;/p&gt;
+&lt;div id=&#34;introduction&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;There has always been a debate between the links of fatal police shootings and the victims. There has even been insinuations that race has an effect on the threatening nature of these individuals. That interactions with police among specific racial groups might, on average be more aggressive or carry higher risk. This topic often sparks outrage within the black and POC communities and within law enforcement.&lt;/p&gt;
+&lt;p&gt;I’m going to to explore this sensitive topic and try to make some inferential findings.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-data&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;The Data&lt;/h1&gt;
 &lt;p&gt;The dataset can be found &lt;a href=&#34;https://github.com/washingtonpost/data-police-shootings&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;We have three variables to look at: “attack”, “other”, and “undetermined”. Attack constitutes as the individual was reported to have posed immediate threat to the officer. “Other” is every other level of threat and “undetermined” is for any circumstance that through the vetting process, threat level could not be determined.
+&lt;p&gt;We have three variables to look at: &lt;code&gt;attack&lt;/code&gt;, &lt;code&gt;other&lt;/code&gt;, and &lt;code&gt;undetermined&lt;/code&gt;. Attack constitutes as the individual was reported to have posed immediate threat to the officer. &lt;code&gt;Other&lt;/code&gt; is every other level of threat and &lt;code&gt;undetermined&lt;/code&gt; is for any circumstance that through the vetting process, threat level could not be determined.
 Keep in mind how the level of threat is determined, as explained in the home page.&lt;/p&gt;
 &lt;p&gt;Let’s look at the visualization of the raw numbers/counts. Figure 1 below shows the level of reported threat by race.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;
@@ -214,10 +214,23 @@ Figure 4. &lt;em&gt;Connecting letters boxplot. Different letters result in sign
 &lt;span class=&#34;math display&#34;&gt;\[ predicted(proportion) = 0.014 + 0.227(Black) + 0.1323(Hispanic) -0.002(Native) + 0.106(Not Recorded) - 0.006(Other) + 0.443(White) \]&lt;/span&gt;
 91.31% of the variation in proportion of those who are threatening is explained through the differences in race, but are these differences significant?&lt;/p&gt;
 &lt;p&gt;A One-way ANOVA (Display 2) was done to test if there is at least one mean proportion from a single race is significantly different to another. The p-value&amp;lt;2e-16. We have enough statistical evidence to conclude at least one mean proportion of one race was significantly different than another race. A Tukey’s comparison post hoc to see what these differences are.&lt;/p&gt;
-&lt;p&gt;Figure 3 and Display 3 shows the output for the Tukey’s comparison of means. The output here can be hard to interpret, so a connecting letters plot was made in Figure 4. Significant differences are denoted as having different letters above each boxplot. &lt;code&gt;Asian&lt;/code&gt;, &lt;code&gt;Native&lt;/code&gt; and &lt;code&gt;Other&lt;/code&gt; all have the same letter, their mean proportions are not significantly different from one another, though they are significantly different than the rest of the races. &lt;code&gt;Hispanic&lt;/code&gt; and the proportions of those who race is recorded as &lt;code&gt;Not Recorded&lt;/code&gt; have no significant differences to each other. &lt;code&gt;Black&lt;/code&gt; is significantly different than all other races. &lt;code&gt;White&lt;/code&gt; is also significanly different than all other races.&lt;/p&gt;
+&lt;p&gt;Figure 3 and Display 3 shows the output for the Tukey’s comparison of means. The output here can be hard to interpret, so a connecting letters plot was made in Figure 4. Significant differences are denoted as having different letters above each boxplot. &lt;code&gt;Asian&lt;/code&gt;, &lt;code&gt;Native&lt;/code&gt; and &lt;code&gt;Other&lt;/code&gt; all have the same letter, so their mean proportions are not significantly different from one another, though they are significantly different than the rest of the races. &lt;code&gt;Hispanic&lt;/code&gt; and the proportions of those who race is recorded as &lt;code&gt;Not Recorded&lt;/code&gt; have no significant differences to each other. &lt;code&gt;Black&lt;/code&gt; is significantly different than all other races. &lt;code&gt;White&lt;/code&gt; is also significanly different than all other races. “a” is the smallest mean proportion while “d” is the largest mean proportion.&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;inferential-comments&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Inferential Comments&lt;/h1&gt;
+&lt;div id=&#34;inferential-findings-and-conclusion&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Inferential Findings and Conclusion&lt;/h1&gt;
+&lt;div id=&#34;is-there-a-correlation-between-threat-level-and-race&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Is there a correlation between threat level and race?&lt;/h3&gt;
+&lt;p&gt;Doing a simple regression analysis, we find that a linear model in where race predicts the proportion of individuals that posed a threat to an officer life, is appropriate. We do not have significant evidence to say that there isn’t a correlation, in fact we have strong statistical evidence that we do. Our model also accounts for 91.31% in the variation of predicted proportion just from race alone.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-are-these-differences&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;What are these differences?&lt;/h3&gt;
+&lt;p&gt;Just like how it is described in the One-way ANOVA and Tukey’s post hoc, &lt;code&gt;Asian&lt;/code&gt;, &lt;code&gt;Native&lt;/code&gt;, and &lt;code&gt;Other&lt;/code&gt; all have predicted proportions that show no significant difference, as they are in group, “a”. &lt;code&gt;Hispanic&lt;/code&gt; and &lt;code&gt;Not Recorded&lt;/code&gt; also show no significant difference, group, “b”. &lt;code&gt;Black&lt;/code&gt; and &lt;code&gt;White&lt;/code&gt; are also in their own category, “c” and “d”, respectfully. This means that &lt;code&gt;White&lt;/code&gt; has the largest mean proportion, followed by &lt;code&gt;Black&lt;/code&gt;, then the group containing &lt;code&gt;Hispanic&lt;/code&gt; and &lt;code&gt;Not Recorded&lt;/code&gt;, followed by the group containing &lt;code&gt;Asian&lt;/code&gt;, &lt;code&gt;Native&lt;/code&gt;, and &lt;code&gt;Other&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;conclusions&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Conclusions&lt;/h3&gt;
+&lt;p&gt;From our findings above, we have evidence to say that the mean proportion of &lt;code&gt;White&lt;/code&gt; people make up the largest proportion of those who posed an immediate threat to an officer’s life in a fatal police shooting. &lt;code&gt;Asian&lt;/code&gt;, &lt;code&gt;Native&lt;/code&gt; and &lt;code&gt;Other&lt;/code&gt; make up the smallest proportion. While we do have a correlation and a good regression model to predict the proportion based on race, I do not think it is appropriate to say that race will predict an individual’s threat level. In this case correlation does not mean causation.&lt;/p&gt;
+&lt;p&gt;We can find the proportion of those who pose a threat to a police officer is more likely to be White than any other race from the fact that 70% or so of the US population is White. White people also make up 40% of all the fatal police shootings It makes sense to have a higher proportion in that sense. We also have other variables to think of. Threat level is mainly based on perception and what is reported. Police can perceive an individual’s threat level based on bias and make a report that the individual did pose immediate threat to the officer’s life. Also, the data set includes social media and other means to record an individual’s theat level. So to make inferences beyond the scope of what statistical tests done is not appropriate.&lt;/p&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 </description>
     </item>
