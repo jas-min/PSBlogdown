@@ -155,7 +155,7 @@ TUKEY
 Display 3. *Table from the visualization Figure 3. provides.*
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # I need to group the treatments that are not different each other together.
 label_df <- function(TUKEY, variable){
  

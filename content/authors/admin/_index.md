@@ -17,7 +17,7 @@ role: Struggling Student
 social:
 - icon: github
   icon_pack: fab
-  link: https://github.com/jas-min
+  link: https://github.com/jas-min/PSBlogdown
 superuser: true
 title: Jasmin Cabarios
 user_groups:
