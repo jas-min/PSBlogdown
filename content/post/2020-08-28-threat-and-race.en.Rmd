@@ -92,7 +92,7 @@ shootings %>%
 Figure 1.
 *Amount of Fatal Police Shootings by Race since 2015* 
 
-All three graphs look identical. The only visual difference is the volume of the counts. I think in this case, looking at the proportions will be more inferenital. 
+All three graphs look identical. The only visual difference is the volume of the counts. I think in this case, looking at the proportions will be more inferential. 
 
 
 # When Victims are Threatening
@@ -119,7 +119,7 @@ Figure 2.
 *Box plot and distribution of the proportions of victims who are recorded to have posed a threat to an officer's life by race from 2015 to current.*
 
 
-From 2015 to current, it is depicted trough Figure 2 that the largest proportion of those who are recorded to be threatening have tended to be White, then Black, Hispanic, Not Recorded, Asian, Native and Other, respectively. 
+From 2015 to current, it is depicted through Figure 2 that the largest proportion of those who are recorded to be threatening have tended to be White, then Black, Hispanic, Not Recorded, Asian, Native and Other, respectively. 
 
 ```{r echo=FALSE}
 r.proportion %>%
@@ -128,7 +128,7 @@ r.proportion %>%
 
 summary(model)
 ```
-Display 1. *Simple linear regression model where `race` predicts the proportion of `threat_level`.
+Display 1. *Simple linear regression model where `race` predicts the proportion of `threat_level`.*
 
 
 ```{r echo=FALSE}

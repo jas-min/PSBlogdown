@@ -13,7 +13,7 @@
     </image>
     
     <item>
-      <title>Fleeing</title>
+      <title>Fleeing from Law Enforcement</title>
       <link>/post/fatal-police-shooting-and-fleeing/</link>
       <pubDate>Fri, 28 Aug 2020 00:00:00 +0000</pubDate>
       <guid>/post/fatal-police-shooting-and-fleeing/</guid>
@@ -24,46 +24,25 @@
 &lt;div id=&#34;type-of-fleeing&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Type of Fleeing&lt;/h1&gt;
 &lt;p&gt;Figure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#proportion are killed while attempting to flee
-shootings %&amp;gt;%
-  mutate(count = 1) %&amp;gt;%
-  aggregate(count ~ flee + year, data = ., sum) %&amp;gt;%
-  group_by(year) %&amp;gt;%
-  mutate(proportion = count / sum(count)) %&amp;gt;%
-  ggplot() +
-    geom_line(mapping = aes(x = year, y = proportion, color = flee)) +
-    ggtitle(&amp;quot;Proportion of Fatal Police Shooting by Flee Method&amp;quot;) + 
-    xlab(&amp;quot;Year&amp;quot;) + ylab(&amp;quot;Proportion&amp;quot;) + theme_bw()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-fatal-police-shooting-and-fleeing.en_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 1.
 &lt;em&gt;The proportion of fatal police shootings by flee method over time.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Figure 1 depicts the proportion of fleeing by car decreasing and every other method is seen increasing, in recent. The proportion of the incidents where fleeing method is not recorded is increasing every year, almost to the same degree that the “Not Fleeing” method is decreasing, this should be taken into account.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;shootings %&amp;gt;%
-  mutate(count = 1) %&amp;gt;%
-  filter(armed == &amp;quot;unarmed&amp;quot;) %&amp;gt;%
-  aggregate(count ~ flee + year + armed, data = ., sum) %&amp;gt;%
-  group_by(year) %&amp;gt;%
-  mutate(proportion = count / sum(count)) %&amp;gt;%
-  ggplot(mapping = aes(x=year, y = proportion, color = flee)) +
-  geom_line() +
-  ggtitle(&amp;quot;Breakdown of Unarmed Victims&amp;quot;) + xlab(&amp;quot;Year&amp;quot;) + ylab(&amp;quot;Proportion&amp;quot;) + theme_bw() &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;unarmed&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Unarmed&lt;/h1&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-fatal-police-shooting-and-fleeing.en_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 2. &lt;em&gt;Accounts for the proportion of method of fleeing of unarmed victims of fatal police shootings&lt;/em&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;unarmed &amp;lt;- shootings %&amp;gt;%
-  mutate(count = 1) %&amp;gt;%
-  filter(armed == &amp;quot;unarmed&amp;quot;) %&amp;gt;%
-  aggregate(count ~ flee + year + armed, data = ., sum) %&amp;gt;%
-  group_by(year) %&amp;gt;%
-  mutate(proportion = count / sum(count)) %&amp;gt;%
-  select(-armed, -count) %&amp;gt;%
-  datatable()
-
-
-htmlwidgets::saveWidget(unarmed, file = &amp;quot;unarmed.html&amp;quot;, selfcontained = TRUE)&lt;/code&gt;&lt;/pre&gt;
 &lt;iframe seamless src=&#34;../unarmed.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
 &lt;/iframe&gt;
 &lt;p&gt;Table 1.
 &lt;em&gt;A table of the proportion of unarmed victims by fleeing method&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;A question proposed is if the proportion of flee method by individuals unarmed reflected Figure 1. Figure 2 is that visualization. Of those indiduals who were ivolved with fatal police shootings, most are not fleeing much like overall fatal police shootings. We also see that a larger proportion of unarmed individuals are fleeing by foot than the overall population.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;influential-findings-and-comments&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Influential Findings and Comments&lt;/h1&gt;
+&lt;p&gt;Most of the victims of fatal police shootings are not fleeing from the police officers. It is the same for those individuals who are unarmed, though for those who are unarmed, a larger proportion is fleeing by &lt;code&gt;Car&lt;/code&gt; or &lt;code&gt;Foot&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;What I think is very interesting to note is why is the proportion of those &lt;code&gt;flee&lt;/code&gt; levels &lt;code&gt;Not Recorded&lt;/code&gt; is increasing. Over time we’re seeing less people not fleeing from the police and every other method is increasing to even a small degree.&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
