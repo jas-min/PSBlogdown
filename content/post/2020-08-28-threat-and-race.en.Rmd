@@ -92,7 +92,11 @@ shootings %>%
 Figure 1.
 *Amount of Fatal Police Shootings by Race since 2015* 
 
-All three graphs look identical. The only visual difference is the volume of the counts. I think in this case, looking at the proportions will be more inferenital.
+All three graphs look identical. The only visual difference is the volume of the counts. I think in this case, looking at the proportions will be more inferenital. 
+
+
+#When Victims are Threatening
+I wanted to explore some general statistics of when a victim pose an immediate threat to a police officer's life. Figure 2 depics a boxplot with the proportions of those who pose immediate threat to an officers life by race. 
 
 ```{r}
 r.proportion <- shootings %>%
@@ -114,16 +118,18 @@ r.proportion %>%
 Figure 2. 
 *Box plot and distribution of the proportions of victims who are recorded to have posed a threat to an officer's life by race from 2015 to current.*
 
+
+From 2015 to current, it seems that a largest proportion of those who are recorded to be threatening have tended to be White, Black, Hispanic, Not Recorded, Asian, Native and Other, respectively. 
+
 ```{r}
 r.proportion %>%
-  lm(formula = race.proportion ~ race * year, data = .) -> model
-r.proportion
-r.proportion %>%
-  ggplot(aes(x= race, y = race.proportion, color = year)) +
-    geom_point() +
-    stat_smooth(method = "lm")
+  lm(formula = race.proportion ~ race, data = .) -> model
+
+
 summary(model)
 ```
+Display 1. *Simple linear regression model where `race` predicts the proportion of `threat_level`.
+
 
 ```{r}
 ANOVA.threat = aov(model)
@@ -135,13 +141,13 @@ plot(TUKEY , las=1 , col="brown")
 
 
 ```
-
+Figure 3. *Confidence intervals of the differencein mean levels of race. Via Tukey's comparison of means.*
 
 
 ```{r}
 TUKEY
 ```
-
+Display 2. *Table from the visualization Figure 3. provides.*
 
 
 ```{r}
@@ -180,7 +186,10 @@ over <- 0.1*max( a$stats[nrow(a$stats),] )
 #Add the labels
 text( c(1:nlevels(r.proportion$race)) , a$stats[nrow(a$stats),]+over , LABELS[,1]  , col  = my_colors[as.numeric(LABELS[,1])] )
 ```
+Figure 4. *Connecting letters boxplot. Different letters result in significant differences between means*
 
+
+Above is 
 
 
 
