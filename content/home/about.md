@@ -23,16 +23,16 @@ Washington Post and database developer, John Muyskens has kept an up-to-date [da
 
 I would like to point out a few things that need to be in mind when looking at these analyses. Although it will be pointed out in the respective topic each analysis is within, these variables need to be discussed:
   
-+ r<manner_of_death> only has two categories, "shot" and "shot and Tasered". This is meant to indicate that if another method was used beside a gun to subdue the victim of a fatal police shooting. There isn't any other indication if other methods were reported to subdue a victim. This may be a lacking variable, but this dataset is on what is reported through local news, law enforcement websites, other databases, social media, and then vetted, so only having two categories is justified.
++ `manner_of_death` only has two categories, "shot" and "shot and Tasered". This is meant to indicate that if another method was used beside a gun to subdue the victim of a fatal police shooting. There isn't any other indication if other methods were reported to subdue a victim. This may be a lacking variable, but this dataset is on what is reported through local news, law enforcement websites, other databases, social media, and then vetted, so only having two categories is justified.
 
-+ race has a category "unknown", which I updated in all analyses as "Not Recorded". The reasoning behind it, is because there is an "other" category, so the race was not recorded through the means described in manner of death.
++ `race` has a category "unknown", which I updated in all analyses as "Not Recorded". The reasoning behind it, is because there is an "other" category, so the race was not recorded through the means described in manner of death.
 
-+ threat_level has the reported immediate threat of an officer's life as "attack". This can be reported through the perception of the police report or other through the other means of updating the dataset. So keep in mind the possibility of a variation of the truth because this variable is based on perception.
++ `threat_level` has the reported immediate threat of an officer's life as "attack". This can be reported through the perception of the police report or other through the other means of updating the dataset. So keep in mind the possibility of a variation of the truth because this variable is based on perception.
 
-+ flee the threat_level are not necessarily related. 
++ `flee` and the `threat_level` are not necessarily related. An individual could pose an immediate threat to an officer's life while trying to escape on a bike. Just as an individual who doesn't any threat could not be trying to escape.
 
 ### Details
 This is a project by Jasmin Cabarios and in collaboration with Alexander Goldstein for STAT 331 at California Polytechnic University, San Luis Obispo. 
 
-As such, all source code is available [here](https://github.com/jas-min/PSBlogdown) and at the bottom of every analysis via github icon.
+All source code is available [here](https://github.com/jas-min/PSBlogdown) and at the bottom of every analysis via github icon.
   
