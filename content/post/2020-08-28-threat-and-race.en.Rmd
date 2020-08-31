@@ -79,7 +79,7 @@ Keep in mind how the level of threat is determined, as explained in the home pag
 
 Let's look at the visualization of the raw numbers/counts. Figure 1 below shows the level of reported threat by race. 
 
-```{r}
+```{r echo=FALSE}
 shootings %>%
   mutate(count = 1) %>%
   ggplot() +
@@ -95,10 +95,10 @@ Figure 1.
 All three graphs look identical. The only visual difference is the volume of the counts. I think in this case, looking at the proportions will be more inferenital. 
 
 
-#When Victims are Threatening
+# When Victims are Threatening
 I wanted to explore some general statistics of when a victim pose an immediate threat to a police officer's life. Figure 2 depics a boxplot with the proportions of those who pose immediate threat to an officers life by race. 
 
-```{r}
+```{r echo=FALSE}
 r.proportion <- shootings %>%
   mutate(count = 1) %>%
   mutate(year = year(date)) %>%
@@ -119,9 +119,9 @@ Figure 2.
 *Box plot and distribution of the proportions of victims who are recorded to have posed a threat to an officer's life by race from 2015 to current.*
 
 
-From 2015 to current, it seems that a largest proportion of those who are recorded to be threatening have tended to be White, Black, Hispanic, Not Recorded, Asian, Native and Other, respectively. 
+From 2015 to current, it is depicted trough Figure 2 that the largest proportion of those who are recorded to be threatening have tended to be White, then Black, Hispanic, Not Recorded, Asian, Native and Other, respectively. 
 
-```{r}
+```{r echo=FALSE}
 r.proportion %>%
   lm(formula = race.proportion ~ race, data = .) -> model
 
@@ -131,9 +131,14 @@ summary(model)
 Display 1. *Simple linear regression model where `race` predicts the proportion of `threat_level`.
 
 
-```{r}
+```{r echo=FALSE}
 ANOVA.threat = aov(model)
 
+summary(ANOVA.threat)
+```
+Display 2. *One-way ANOVA on proportion means by race*
+
+```{r echo=FALSE}
 # Tukey test to study each pair of treatment :
 TUKEY <- TukeyHSD(x=ANOVA.threat, 'race', conf.level=0.95, ordered = TRUE)
 # Tuckey test representation :
@@ -144,13 +149,13 @@ plot(TUKEY , las=1 , col="brown")
 Figure 3. *Confidence intervals of the differencein mean levels of race. Via Tukey's comparison of means.*
 
 
-```{r}
+```{r echo=FALSE}
 TUKEY
 ```
-Display 2. *Table from the visualization Figure 3. provides.*
+Display 3. *Table from the visualization Figure 3. provides.*
 
 
-```{r}
+```{r echo=FALSE}
 # I need to group the treatments that are not different each other together.
 label_df <- function(TUKEY, variable){
  
@@ -189,7 +194,21 @@ text( c(1:nlevels(r.proportion$race)) , a$stats[nrow(a$stats),]+over , LABELS[,1
 Figure 4. *Connecting letters boxplot. Different letters result in significant differences between means*
 
 
-Above is 
+Display 1 is the output of a regression model in where we predict the proportion of the `attack` threat level via race. Our R-squared adjusted=.9131 and the p-value=2.2e-16 meaning that the regression is an appropriate model to predict the proportion of individuals that pose a threat on an officer's life by race. 
+
+The regression model:
+$$ predicted(proportion) = 0.014 + 0.227(Black) + 0.1323(Hispanic) -0.002(Native) + 0.106(Not Recorded) - 0.006(Other) + 0.443(White) $$
+91.31% of the variation in proportion of those who are threatening is explained through the differences in race, but are these differences significant? 
+
+A One-way ANOVA (Display 2) was done to test if there is at least one mean proportion from a single race is significantly different to another. The p-value<2e-16. We have enough statistical evidence to conclude at least one mean proportion of one race was significantly different than another race. A Tukey's comparison post hoc to see what these differences are. 
+
+Figure 3 and Display 3 shows the output for the Tukey's comparison of means. The output here can be hard to interpret, so a connecting letters plot was made in Figure 4. Significant differences are denoted as having different letters above each boxplot. `Asian`, `Native` and `Other` all have the same letter, their mean proportions are not significantly different from one another, though they are significantly different than the rest of the races. `Hispanic` and the proportions of those who race is recorded as `Not Recorded` have no significant differences to each other. `Black` is significantly different than all other races. `White` is also significanly different than all other races. 
+
+# Inferential Comments
+
+
+
+
 
 
 

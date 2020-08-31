@@ -36,43 +36,19 @@ projects: []
 <p>We have three variables to look at: “attack”, “other”, and “undetermined”. Attack constitutes as the individual was reported to have posed immediate threat to the officer. “Other” is every other level of threat and “undetermined” is for any circumstance that through the vetting process, threat level could not be determined.
 Keep in mind how the level of threat is determined, as explained in the home page.</p>
 <p>Let’s look at the visualization of the raw numbers/counts. Figure 1 below shows the level of reported threat by race.</p>
-<pre class="r"><code>shootings %&gt;%
-  mutate(count = 1) %&gt;%
-  ggplot() +
-  geom_bar(mapping = aes(x = threat_level, fill = race), position = &quot;dodge&quot;) +
-  facet_wrap(~threat_level, scales = &quot;free&quot;) + 
-  ggtitle(&quot;Raw Amounts of Threat Level&quot;) +
-  xlab(&quot;Threat Level&quot;) +
-  ylab(&quot;Count&quot;)</code></pre>
 <p><img src="/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-1-1.png" width="672" />
 Figure 1.
 <em>Amount of Fatal Police Shootings by Race since 2015</em></p>
 <p>All three graphs look identical. The only visual difference is the volume of the counts. I think in this case, looking at the proportions will be more inferenital.</p>
-<p>#When Victims are Threatening
-I wanted to explore some general statistics of when a victim pose an immediate threat to a police officer’s life. Figure 2 depics a boxplot with the proportions of those who pose immediate threat to an officers life by race.</p>
-<pre class="r"><code>r.proportion &lt;- shootings %&gt;%
-  mutate(count = 1) %&gt;%
-  mutate(year = year(date)) %&gt;%
-  aggregate(count ~ threat_level + race + year, data = ., sum) %&gt;%
-  filter(threat_level == &quot;attack&quot;) %&gt;%
-  group_by(year) %&gt;%
-  mutate(race.proportion = count / sum(count))
-r.proportion %&gt;%
-  ggplot() +
-  geom_boxplot(mapping = aes(x = race, y = race.proportion), fill = &quot;lavender&quot;) +
-  geom_point(mapping = aes(x = race, y = race.proportion, color = year)) +
-  ggtitle(&quot;Proportion of Race with &#39;attack&#39; Threat Level&quot;) + xlab(&quot;Race&quot;) +
-  ylab(&quot;Proportion&quot;) + theme_bw()</code></pre>
+</div>
+<div id="when-victims-are-threatening" class="section level1">
+<h1>When Victims are Threatening</h1>
+<p>I wanted to explore some general statistics of when a victim pose an immediate threat to a police officer’s life. Figure 2 depics a boxplot with the proportions of those who pose immediate threat to an officers life by race.</p>
 <p><img src="/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 Figure 2.
 <em>Box plot and distribution of the proportions of victims who are recorded to have posed a threat to an officer’s life by race from 2015 to current.</em></p>
-<p>From 2015 to current, it seems that a largest proportion of those who are recorded to be threatening have tended to be White, Black, Hispanic, Not Recorded, Asian, Native and Other, respectively.</p>
-<pre class="r"><code>r.proportion %&gt;%
-  lm(formula = race.proportion ~ race, data = .) -&gt; model
-
-
-summary(model)
-## 
+<p>From 2015 to current, it is depicted trough Figure 2 that the largest proportion of those who are recorded to be threatening have tended to be White, then Black, Hispanic, Not Recorded, Asian, Native and Other, respectively.</p>
+<pre><code>## 
 ## Call:
 ## lm(formula = race.proportion ~ race, data = .)
 ## 
@@ -96,16 +72,15 @@ summary(model)
 ## Multiple R-squared:  0.9258, Adjusted R-squared:  0.9131 
 ## F-statistic: 72.76 on 6 and 35 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Display 1. *Simple linear regression model where <code>race</code> predicts the proportion of <code>threat_level</code>.</p>
-<pre class="r"><code>ANOVA.threat = aov(model)
-
-# Tukey test to study each pair of treatment :
-TUKEY &lt;- TukeyHSD(x=ANOVA.threat, &#39;race&#39;, conf.level=0.95, ordered = TRUE)
-# Tuckey test representation :
-plot(TUKEY , las=1 , col=&quot;brown&quot;)</code></pre>
-<p><img src="/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)    
+## race         6 0.9625  0.1604   72.76 &lt;2e-16 ***
+## Residuals   35 0.0772  0.0022                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Display 2. <em>One-way ANOVA on proportion means by race</em></p>
+<p><img src="/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 Figure 3. <em>Confidence intervals of the differencein mean levels of race. Via Tukey’s comparison of means.</em></p>
-<pre class="r"><code>TUKEY
-##   Tukey multiple comparisons of means
+<pre><code>##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
 ##     factor levels have been ordered
 ## 
@@ -134,46 +109,20 @@ Figure 3. <em>Confidence intervals of the differencein mean levels of race. Via 
 ## Black-Hispanic  0.094417366  0.009676367 0.17915837 0.0208135
 ## White-Hispanic  0.309686821  0.224945821 0.39442782 0.0000000
 ## White-Black     0.215269454  0.130528455 0.30001045 0.0000000</code></pre>
-<p>Display 2. <em>Table from the visualization Figure 3. provides.</em></p>
-<pre class="r"><code># I need to group the treatments that are not different each other together.
-label_df &lt;- function(TUKEY, variable){
- 
-     # Extract labels and factor levels from Tukey post-hoc 
-     levels &lt;- TUKEY[[variable]][,4]
-     Tukey.labels &lt;- data.frame(multcompLetters(levels)[&#39;Letters&#39;])
-     
-     #I need to put the labels in the same order as in the boxplot :
-     Tukey.labels$treatment=rownames(Tukey.labels)
-     Tukey.labels=Tukey.labels[order(Tukey.labels$treatment) , ]
-     return(Tukey.labels)
-     }
- 
-# Apply the function on my dataset
-LABELS &lt;- label_df(TUKEY , &quot;race&quot;)
- 
- 
-# A panel of colors to draw each group with the same color :
-my_colors &lt;- c( 
-  rgb(143,199,74,maxColorValue = 255),
-  rgb(242,104,34,maxColorValue = 255), 
-  rgb(111,145,202,maxColorValue = 255),
-  rgb(151,105,102,maxColorValue = 255)
-  )
- 
-# Draw the basic boxplot
-a &lt;- boxplot(r.proportion$race.proportion ~ r.proportion$race, ylim=c(min(r.proportion$race.proportion) , 1.1*max(r.proportion$race.proportion)) , col=my_colors[as.numeric(LABELS[,1])] , ylab=&quot;value&quot; , main=&quot;&quot;)
-## Warning in boxplot.default(split(mf[[response]], mf[-response], drop = drop, :
+<p>Display 3. <em>Table from the visualization Figure 3. provides.</em></p>
+<pre><code>## Warning in boxplot.default(split(mf[[response]], mf[-response], drop = drop, :
 ## NAs introduced by coercion
-
-
-# I want to write the letter over each box. Over is how high I want to write it.
-over &lt;- 0.1*max( a$stats[nrow(a$stats),] )
- 
-#Add the labels
-text( c(1:nlevels(r.proportion$race)) , a$stats[nrow(a$stats),]+over , LABELS[,1]  , col  = my_colors[as.numeric(LABELS[,1])] )
 ## Warning in text.default(c(1:nlevels(r.proportion$race)),
 ## a$stats[nrow(a$stats), : NAs introduced by coercion</code></pre>
-<p><img src="/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<p><img src="/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 Figure 4. <em>Connecting letters boxplot. Different letters result in significant differences between means</em></p>
-<p>Above is</p>
+<p>Display 1 is the output of a regression model in where we predict the proportion of the <code>attack</code> threat level via race. Our R-squared adjusted=.9131 and the p-value=2.2e-16 meaning that the regression is an appropriate model to predict the proportion of individuals that pose a threat on an officer’s life by race.</p>
+<p>The regression model:
+<span class="math display">\[ predicted(proportion) = 0.014 + 0.227(Black) + 0.1323(Hispanic) -0.002(Native) + 0.106(Not Recorded) - 0.006(Other) + 0.443(White) \]</span>
+91.31% of the variation in proportion of those who are threatening is explained through the differences in race, but are these differences significant?</p>
+<p>A One-way ANOVA (Display 2) was done to test if there is at least one mean proportion from a single race is significantly different to another. The p-value&lt;2e-16. We have enough statistical evidence to conclude at least one mean proportion of one race was significantly different than another race. A Tukey’s comparison post hoc to see what these differences are.</p>
+<p>Figure 3 and Display 3 shows the output for the Tukey’s comparison of means. The output here can be hard to interpret, so a connecting letters plot was made in Figure 4. Significant differences are denoted as having different letters above each boxplot. <code>Asian</code>, <code>Native</code> and <code>Other</code> all have the same letter, their mean proportions are not significantly different from one another, though they are significantly different than the rest of the races. <code>Hispanic</code> and the proportions of those who race is recorded as <code>Not Recorded</code> have no significant differences to each other. <code>Black</code> is significantly different than all other races. <code>White</code> is also significanly different than all other races.</p>
+</div>
+<div id="inferential-comments" class="section level1">
+<h1>Inferential Comments</h1>
 </div>

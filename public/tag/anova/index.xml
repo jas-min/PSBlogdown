@@ -31,43 +31,19 @@
 &lt;p&gt;We have three variables to look at: “attack”, “other”, and “undetermined”. Attack constitutes as the individual was reported to have posed immediate threat to the officer. “Other” is every other level of threat and “undetermined” is for any circumstance that through the vetting process, threat level could not be determined.
 Keep in mind how the level of threat is determined, as explained in the home page.&lt;/p&gt;
 &lt;p&gt;Let’s look at the visualization of the raw numbers/counts. Figure 1 below shows the level of reported threat by race.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;shootings %&amp;gt;%
-  mutate(count = 1) %&amp;gt;%
-  ggplot() +
-  geom_bar(mapping = aes(x = threat_level, fill = race), position = &amp;quot;dodge&amp;quot;) +
-  facet_wrap(~threat_level, scales = &amp;quot;free&amp;quot;) + 
-  ggtitle(&amp;quot;Raw Amounts of Threat Level&amp;quot;) +
-  xlab(&amp;quot;Threat Level&amp;quot;) +
-  ylab(&amp;quot;Count&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 1.
 &lt;em&gt;Amount of Fatal Police Shootings by Race since 2015&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;All three graphs look identical. The only visual difference is the volume of the counts. I think in this case, looking at the proportions will be more inferenital.&lt;/p&gt;
-&lt;p&gt;#When Victims are Threatening
-I wanted to explore some general statistics of when a victim pose an immediate threat to a police officer’s life. Figure 2 depics a boxplot with the proportions of those who pose immediate threat to an officers life by race.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r.proportion &amp;lt;- shootings %&amp;gt;%
-  mutate(count = 1) %&amp;gt;%
-  mutate(year = year(date)) %&amp;gt;%
-  aggregate(count ~ threat_level + race + year, data = ., sum) %&amp;gt;%
-  filter(threat_level == &amp;quot;attack&amp;quot;) %&amp;gt;%
-  group_by(year) %&amp;gt;%
-  mutate(race.proportion = count / sum(count))
-r.proportion %&amp;gt;%
-  ggplot() +
-  geom_boxplot(mapping = aes(x = race, y = race.proportion), fill = &amp;quot;lavender&amp;quot;) +
-  geom_point(mapping = aes(x = race, y = race.proportion, color = year)) +
-  ggtitle(&amp;quot;Proportion of Race with &amp;#39;attack&amp;#39; Threat Level&amp;quot;) + xlab(&amp;quot;Race&amp;quot;) +
-  ylab(&amp;quot;Proportion&amp;quot;) + theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;when-victims-are-threatening&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;When Victims are Threatening&lt;/h1&gt;
+&lt;p&gt;I wanted to explore some general statistics of when a victim pose an immediate threat to a police officer’s life. Figure 2 depics a boxplot with the proportions of those who pose immediate threat to an officers life by race.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 2.
 &lt;em&gt;Box plot and distribution of the proportions of victims who are recorded to have posed a threat to an officer’s life by race from 2015 to current.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;From 2015 to current, it seems that a largest proportion of those who are recorded to be threatening have tended to be White, Black, Hispanic, Not Recorded, Asian, Native and Other, respectively.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r.proportion %&amp;gt;%
-  lm(formula = race.proportion ~ race, data = .) -&amp;gt; model
-
-
-summary(model)
-## 
+&lt;p&gt;From 2015 to current, it is depicted trough Figure 2 that the largest proportion of those who are recorded to be threatening have tended to be White, then Black, Hispanic, Not Recorded, Asian, Native and Other, respectively.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## 
 ## Call:
 ## lm(formula = race.proportion ~ race, data = .)
 ## 
@@ -91,16 +67,15 @@ summary(model)
 ## Multiple R-squared:  0.9258, Adjusted R-squared:  0.9131 
 ## F-statistic: 72.76 on 6 and 35 DF,  p-value: &amp;lt; 2.2e-16&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Display 1. *Simple linear regression model where &lt;code&gt;race&lt;/code&gt; predicts the proportion of &lt;code&gt;threat_level&lt;/code&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ANOVA.threat = aov(model)
-
-# Tukey test to study each pair of treatment :
-TUKEY &amp;lt;- TukeyHSD(x=ANOVA.threat, &amp;#39;race&amp;#39;, conf.level=0.95, ordered = TRUE)
-# Tuckey test representation :
-plot(TUKEY , las=1 , col=&amp;quot;brown&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;
+&lt;pre&gt;&lt;code&gt;##             Df Sum Sq Mean Sq F value Pr(&amp;gt;F)    
+## race         6 0.9625  0.1604   72.76 &amp;lt;2e-16 ***
+## Residuals   35 0.0772  0.0022                   
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Display 2. &lt;em&gt;One-way ANOVA on proportion means by race&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 3. &lt;em&gt;Confidence intervals of the differencein mean levels of race. Via Tukey’s comparison of means.&lt;/em&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;TUKEY
-##   Tukey multiple comparisons of means
+&lt;pre&gt;&lt;code&gt;##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
 ##     factor levels have been ordered
 ## 
@@ -129,48 +104,22 @@ Figure 3. &lt;em&gt;Confidence intervals of the differencein mean levels of race
 ## Black-Hispanic  0.094417366  0.009676367 0.17915837 0.0208135
 ## White-Hispanic  0.309686821  0.224945821 0.39442782 0.0000000
 ## White-Black     0.215269454  0.130528455 0.30001045 0.0000000&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Display 2. &lt;em&gt;Table from the visualization Figure 3. provides.&lt;/em&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# I need to group the treatments that are not different each other together.
-label_df &amp;lt;- function(TUKEY, variable){
- 
-     # Extract labels and factor levels from Tukey post-hoc 
-     levels &amp;lt;- TUKEY[[variable]][,4]
-     Tukey.labels &amp;lt;- data.frame(multcompLetters(levels)[&amp;#39;Letters&amp;#39;])
-     
-     #I need to put the labels in the same order as in the boxplot :
-     Tukey.labels$treatment=rownames(Tukey.labels)
-     Tukey.labels=Tukey.labels[order(Tukey.labels$treatment) , ]
-     return(Tukey.labels)
-     }
- 
-# Apply the function on my dataset
-LABELS &amp;lt;- label_df(TUKEY , &amp;quot;race&amp;quot;)
- 
- 
-# A panel of colors to draw each group with the same color :
-my_colors &amp;lt;- c( 
-  rgb(143,199,74,maxColorValue = 255),
-  rgb(242,104,34,maxColorValue = 255), 
-  rgb(111,145,202,maxColorValue = 255),
-  rgb(151,105,102,maxColorValue = 255)
-  )
- 
-# Draw the basic boxplot
-a &amp;lt;- boxplot(r.proportion$race.proportion ~ r.proportion$race, ylim=c(min(r.proportion$race.proportion) , 1.1*max(r.proportion$race.proportion)) , col=my_colors[as.numeric(LABELS[,1])] , ylab=&amp;quot;value&amp;quot; , main=&amp;quot;&amp;quot;)
-## Warning in boxplot.default(split(mf[[response]], mf[-response], drop = drop, :
+&lt;p&gt;Display 3. &lt;em&gt;Table from the visualization Figure 3. provides.&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## Warning in boxplot.default(split(mf[[response]], mf[-response], drop = drop, :
 ## NAs introduced by coercion
-
-
-# I want to write the letter over each box. Over is how high I want to write it.
-over &amp;lt;- 0.1*max( a$stats[nrow(a$stats),] )
- 
-#Add the labels
-text( c(1:nlevels(r.proportion$race)) , a$stats[nrow(a$stats),]+over , LABELS[,1]  , col  = my_colors[as.numeric(LABELS[,1])] )
 ## Warning in text.default(c(1:nlevels(r.proportion$race)),
 ## a$stats[nrow(a$stats), : NAs introduced by coercion&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 4. &lt;em&gt;Connecting letters boxplot. Different letters result in significant differences between means&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Above is&lt;/p&gt;
+&lt;p&gt;Display 1 is the output of a regression model in where we predict the proportion of the &lt;code&gt;attack&lt;/code&gt; threat level via race. Our R-squared adjusted=.9131 and the p-value=2.2e-16 meaning that the regression is an appropriate model to predict the proportion of individuals that pose a threat on an officer’s life by race.&lt;/p&gt;
+&lt;p&gt;The regression model:
+&lt;span class=&#34;math display&#34;&gt;\[ predicted(proportion) = 0.014 + 0.227(Black) + 0.1323(Hispanic) -0.002(Native) + 0.106(Not Recorded) - 0.006(Other) + 0.443(White) \]&lt;/span&gt;
+91.31% of the variation in proportion of those who are threatening is explained through the differences in race, but are these differences significant?&lt;/p&gt;
+&lt;p&gt;A One-way ANOVA (Display 2) was done to test if there is at least one mean proportion from a single race is significantly different to another. The p-value&amp;lt;2e-16. We have enough statistical evidence to conclude at least one mean proportion of one race was significantly different than another race. A Tukey’s comparison post hoc to see what these differences are.&lt;/p&gt;
+&lt;p&gt;Figure 3 and Display 3 shows the output for the Tukey’s comparison of means. The output here can be hard to interpret, so a connecting letters plot was made in Figure 4. Significant differences are denoted as having different letters above each boxplot. &lt;code&gt;Asian&lt;/code&gt;, &lt;code&gt;Native&lt;/code&gt; and &lt;code&gt;Other&lt;/code&gt; all have the same letter, their mean proportions are not significantly different from one another, though they are significantly different than the rest of the races. &lt;code&gt;Hispanic&lt;/code&gt; and the proportions of those who race is recorded as &lt;code&gt;Not Recorded&lt;/code&gt; have no significant differences to each other. &lt;code&gt;Black&lt;/code&gt; is significantly different than all other races. &lt;code&gt;White&lt;/code&gt; is also significanly different than all other races.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;inferential-comments&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Inferential Comments&lt;/h1&gt;
 &lt;/div&gt;
 </description>
     </item>

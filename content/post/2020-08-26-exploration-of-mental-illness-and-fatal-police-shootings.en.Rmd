@@ -80,7 +80,7 @@ shootings <- shootings %>%
 
 
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 mental.illness <- shootings %>%
   mutate(count = 1) %>%
   aggregate(count ~  race + signs_of_mental_illness + year, data = ., sum) %>%
@@ -112,7 +112,7 @@ Table 1
 *General descriptive statistics of fatal police shootings overall.*
 
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 ag.year <- shootings %>%
   mutate(count = 1) %>%
   aggregate(count ~  race + signs_of_mental_illness + year, data = ., sum) %>%
@@ -157,7 +157,7 @@ In the two tables shown above, we get a good picture fatal police shootings by s
 If more than 1 in 4 victims of fatal police shootings involve mental illness, were there attempts to subdue these victims besides shooting? The dataset I'm working with involve whether a taser was used to de-escalate along with shooting via the variable `manner_of_death`. There were only two categories, `shot`, and, `shot and Tasered`.
 
 
-```{r}
+```{r echo=FALSE}
 shootings %>%
   filter(signs_of_mental_illness == "True") %>%
   mutate(count = 1) %>%
@@ -168,7 +168,7 @@ shootings %>%
   geom_line(mapping = aes(x = year, y = prop, color = manner_of_death)) +
   theme_bw() + xlab("Year") + ylab("Proportion") + ggtitle("Victims with Mental Illness")
 ```
-Figure 1.
+Figure 2.
 
 
 ```{r eval=FALSE, include=FALSE}
@@ -182,7 +182,7 @@ shootings %>%
 In Figure 2, we see that with the fatal police shootings involving victims that showed signs of mental illness, less than 10% in every year have on record that the police tried to deploy a taser as a means of subduing the victim. we actually see a dip in 2018 and is slowly starting to rise again. We are only through a little more than half of the year, but this dataset is updated real time, so this graph will always be current.
 
 
-```{r message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 shootings %>%
   filter(signs_of_mental_illness == "True", manner_of_death == "shot and Tasered") %>%
   mutate(count = 1) %>%
