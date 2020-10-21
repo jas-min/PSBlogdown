@@ -70,9 +70,9 @@ shootings <- shootings %>%
 This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.
 
 # Type of Fleeing 
-Figure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using. 
+Fig. 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using. 
 
-```{r echo=FALSE}
+```{r echo=TRUE}
 #proportion are killed while attempting to flee
 shootings %>%
   mutate(count = 1) %>%
@@ -88,11 +88,11 @@ shootings %>%
 Figure 1.
 *The proportion of fatal police shootings by flee method over time.*
 
-Figure 1 depicts the proportion of fleeing by car decreasing and every other method is seen increasing, in recent. The proportion of the incidents where fleeing method is not recorded is increasing every year, almost to the same degree that the "Not Fleeing" method is decreasing, this should be taken into account. 
+Fig. 1 depicts the proportion of fleeing by car decreasing and every other method is seen increasing, in recent. The proportion of the incidents where fleeing method is not recorded is increasing every year, almost to the same degree that the `Not Fleeing` method is decreasing, this should be taken into account. 
 
 
 # Unarmed
-```{r echo=FALSE}
+```{r echo=TRUE}
 shootings %>%
   mutate(count = 1) %>%
   filter(armed == "unarmed") %>%
@@ -106,7 +106,7 @@ shootings %>%
 ```
 Figure 2. *Accounts for the proportion of method of fleeing of unarmed victims of fatal police shootings*
 
-```{r echo=FALSE}
+```{r echo=TRUE}
 unarmed <- shootings %>%
   mutate(count = 1) %>%
   filter(armed == "unarmed") %>%
@@ -125,7 +125,7 @@ htmlwidgets::saveWidget(unarmed, file = "unarmed.html", selfcontained = TRUE)
 Table 1. 
 *A table of the proportion of unarmed victims by fleeing method*
 
-A question proposed is if the proportion of flee method by individuals unarmed reflected Figure 1. Figure 2 is that visualization. Of those indiduals who were ivolved with fatal police shootings, most are not fleeing much like overall fatal police shootings. We also see that a larger proportion of unarmed individuals are fleeing by foot than the overall population. 
+A question proposed is if the proportion of flee method by individuals unarmed reflected Fig. 1? Fig. 2 is that visualization. Of those indikviduals who were involved with fatal police shootings, most are not fleeing much like overall fatal police shootings. We also see that a larger proportion of unarmed individuals are fleeing by foot than the overall population. 
 
 
 ```{r}

@@ -23,21 +23,51 @@
 &lt;p&gt;This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.&lt;/p&gt;
 &lt;div id=&#34;type-of-fleeing&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Type of Fleeing&lt;/h1&gt;
-&lt;p&gt;Figure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using.&lt;/p&gt;
+&lt;p&gt;Fig. 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#proportion are killed while attempting to flee
+shootings %&amp;gt;%
+  mutate(count = 1) %&amp;gt;%
+  aggregate(count ~ flee + year, data = ., sum) %&amp;gt;%
+  group_by(year) %&amp;gt;%
+  mutate(proportion = count / sum(count)) %&amp;gt;%
+  ggplot() +
+    geom_line(mapping = aes(x = year, y = proportion, color = flee)) +
+    ggtitle(&amp;quot;Proportion of Fatal Police Shooting by Flee Method&amp;quot;) + 
+    xlab(&amp;quot;Year&amp;quot;) + ylab(&amp;quot;Proportion&amp;quot;) + theme_bw()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-fatal-police-shooting-and-fleeing.en_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 1.
 &lt;em&gt;The proportion of fatal police shootings by flee method over time.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Figure 1 depicts the proportion of fleeing by car decreasing and every other method is seen increasing, in recent. The proportion of the incidents where fleeing method is not recorded is increasing every year, almost to the same degree that the “Not Fleeing” method is decreasing, this should be taken into account.&lt;/p&gt;
+&lt;p&gt;Fig. 1 depicts the proportion of fleeing by car decreasing and every other method is seen increasing, in recent. The proportion of the incidents where fleeing method is not recorded is increasing every year, almost to the same degree that the &lt;code&gt;Not Fleeing&lt;/code&gt; method is decreasing, this should be taken into account.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;unarmed&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Unarmed&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;shootings %&amp;gt;%
+  mutate(count = 1) %&amp;gt;%
+  filter(armed == &amp;quot;unarmed&amp;quot;) %&amp;gt;%
+  aggregate(count ~ flee + year + armed, data = ., sum) %&amp;gt;%
+  group_by(year) %&amp;gt;%
+  mutate(proportion = count / sum(count)) %&amp;gt;%
+  ggplot(mapping = aes(x=year, y = proportion, color = flee)) +
+  geom_line() +
+  ggtitle(&amp;quot;Breakdown of Unarmed Victims&amp;quot;) + xlab(&amp;quot;Year&amp;quot;) + ylab(&amp;quot;Proportion&amp;quot;) + theme_bw() &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-fatal-police-shooting-and-fleeing.en_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 2. &lt;em&gt;Accounts for the proportion of method of fleeing of unarmed victims of fatal police shootings&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;unarmed &amp;lt;- shootings %&amp;gt;%
+  mutate(count = 1) %&amp;gt;%
+  filter(armed == &amp;quot;unarmed&amp;quot;) %&amp;gt;%
+  aggregate(count ~ flee + year + armed, data = ., sum) %&amp;gt;%
+  group_by(year) %&amp;gt;%
+  mutate(proportion = count / sum(count)) %&amp;gt;%
+  select(-armed, -count) %&amp;gt;%
+  datatable()
+
+
+htmlwidgets::saveWidget(unarmed, file = &amp;quot;unarmed.html&amp;quot;, selfcontained = TRUE)&lt;/code&gt;&lt;/pre&gt;
 &lt;iframe seamless src=&#34;../unarmed.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
 &lt;/iframe&gt;
 &lt;p&gt;Table 1.
 &lt;em&gt;A table of the proportion of unarmed victims by fleeing method&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;A question proposed is if the proportion of flee method by individuals unarmed reflected Figure 1. Figure 2 is that visualization. Of those indiduals who were ivolved with fatal police shootings, most are not fleeing much like overall fatal police shootings. We also see that a larger proportion of unarmed individuals are fleeing by foot than the overall population.&lt;/p&gt;
+&lt;p&gt;A question proposed is if the proportion of flee method by individuals unarmed reflected Fig. 1? Fig. 2 is that visualization. Of those indikviduals who were involved with fatal police shootings, most are not fleeing much like overall fatal police shootings. We also see that a larger proportion of unarmed individuals are fleeing by foot than the overall population.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;influential-findings-and-comments&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Influential Findings and Comments&lt;/h1&gt;
@@ -62,10 +92,18 @@ Figure 2. &lt;em&gt;Accounts for the proportion of method of fleeing of unarmed 
 &lt;/div&gt;
 &lt;div id=&#34;the-data&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;The Data&lt;/h1&gt;
-&lt;p&gt;The dataset can be found &lt;a href=&#34;https://github.com/washingtonpost/data-police-shootings&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The data set can be found &lt;a href=&#34;https://github.com/washingtonpost/data-police-shootings&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;We have three variables to look at: &lt;code&gt;attack&lt;/code&gt;, &lt;code&gt;other&lt;/code&gt;, and &lt;code&gt;undetermined&lt;/code&gt;. Attack constitutes as the individual was reported to have posed immediate threat to the officer. &lt;code&gt;Other&lt;/code&gt; is every other level of threat and &lt;code&gt;undetermined&lt;/code&gt; is for any circumstance that through the vetting process, threat level could not be determined.
 Keep in mind how the level of threat is determined, as explained in the home page.&lt;/p&gt;
-&lt;p&gt;Let’s look at the visualization of the raw numbers/counts. Figure 1 below shows the level of reported threat by race.&lt;/p&gt;
+&lt;p&gt;Let’s look at the visualization of the raw numbers/counts. Fig. 1 below shows the level of reported threat by race.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;shootings %&amp;gt;%
+  mutate(count = 1) %&amp;gt;%
+  ggplot() +
+  geom_bar(mapping = aes(x = threat_level, fill = race), position = &amp;quot;dodge&amp;quot;) +
+  facet_wrap(~threat_level, scales = &amp;quot;free&amp;quot;) + 
+  ggtitle(&amp;quot;Raw Amounts of Threat Level&amp;quot;) +
+  xlab(&amp;quot;Threat Level&amp;quot;) +
+  ylab(&amp;quot;Count&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 1.
 &lt;em&gt;Amount of Fatal Police Shootings by Race since 2015&lt;/em&gt;&lt;/p&gt;
@@ -73,73 +111,129 @@ Figure 1.
 &lt;/div&gt;
 &lt;div id=&#34;when-victims-are-threatening&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;When Victims are Threatening&lt;/h1&gt;
-&lt;p&gt;I wanted to explore some general statistics of when a victim pose an immediate threat to a police officer’s life. Figure 2 depics a boxplot with the proportions of those who pose immediate threat to an officers life by race.&lt;/p&gt;
+&lt;p&gt;I wanted to explore some general statistics of when a victim pose an immediate threat to a police officer’s life. Fig. 2 depicts a boxplot with the proportions of those who pose immediate threat to an officers life by race.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r.proportion &amp;lt;- shootings %&amp;gt;%
+  mutate(count = 1) %&amp;gt;%
+  mutate(year = year(date)) %&amp;gt;%
+  aggregate(count ~ threat_level + race + year, data = ., sum) %&amp;gt;%
+  filter(threat_level == &amp;quot;attack&amp;quot;) %&amp;gt;%
+  group_by(year) %&amp;gt;%
+  mutate(race.proportion = count / sum(count))
+r.proportion %&amp;gt;%
+  ggplot() +
+  geom_boxplot(mapping = aes(x = race, y = race.proportion), fill = &amp;quot;lavender&amp;quot;) +
+  geom_point(mapping = aes(x = race, y = race.proportion, color = year)) +
+  ggtitle(&amp;quot;Proportion of Race with &amp;#39;attack&amp;#39; Threat Level&amp;quot;) + xlab(&amp;quot;Race&amp;quot;) +
+  ylab(&amp;quot;Proportion&amp;quot;) + theme_bw()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 2.
 &lt;em&gt;Box plot and distribution of the proportions of victims who are recorded to have posed a threat to an officer’s life by race from 2015 to current.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;From 2015 to current, it is depicted through Figure 2 that the largest proportion of those who are recorded to be threatening have tended to be White, then Black, Hispanic, Not Recorded, Asian, Native and Other, respectively.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;## 
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r.proportion %&amp;gt;%
+  lm(formula = race.proportion ~ race, data = .) -&amp;gt; model
+
+
+summary(model)
+## 
 ## Call:
 ## lm(formula = race.proportion ~ race, data = .)
 ## 
 ## Residuals:
 ##       Min        1Q    Median        3Q       Max 
-## -0.094020 -0.004781 -0.000993  0.011865  0.185885 
+## -0.084340 -0.004847 -0.001142  0.011070  0.148922 
 ## 
 ## Coefficients:
 ##               Estimate Std. Error t value Pr(&amp;gt;|t|)    
-## (Intercept)   0.013992   0.019169   0.730 0.470298    
-## raceBlack     0.227372   0.027109   8.387 6.83e-10 ***
-## raceHispanic  0.132954   0.027109   4.904 2.14e-05 ***
-## raceNative   -0.001808   0.027109  -0.067 0.947208    
-## raceNR        0.106430   0.027109   3.926 0.000387 ***
-## raceOther    -0.005531   0.027109  -0.204 0.839508    
-## raceWhite     0.442641   0.027109  16.328  &amp;lt; 2e-16 ***
+## (Intercept)   0.013652   0.016435   0.831  0.41182    
+## raceBlack     0.229493   0.023243   9.874 1.18e-11 ***
+## raceHispanic  0.135013   0.023243   5.809 1.38e-06 ***
+## raceNative   -0.001000   0.023243  -0.043  0.96591    
+## raceNR        0.099377   0.023243   4.276  0.00014 ***
+## raceOther    -0.005361   0.023243  -0.231  0.81893    
+## raceWhite     0.446918   0.023243  19.228  &amp;lt; 2e-16 ***
 ## ---
 ## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
 ## 
-## Residual standard error: 0.04695 on 35 degrees of freedom
-## Multiple R-squared:  0.9258, Adjusted R-squared:  0.9131 
-## F-statistic: 72.76 on 6 and 35 DF,  p-value: &amp;lt; 2.2e-16&lt;/code&gt;&lt;/pre&gt;
+## Residual standard error: 0.04026 on 35 degrees of freedom
+## Multiple R-squared:  0.9454, Adjusted R-squared:  0.936 
+## F-statistic:   101 on 6 and 35 DF,  p-value: &amp;lt; 2.2e-16&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Display 1. &lt;em&gt;Simple linear regression model where &lt;code&gt;race&lt;/code&gt; predicts the proportion of &lt;code&gt;threat_level&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;##             Df Sum Sq Mean Sq F value Pr(&amp;gt;F)    
-## race         6 0.9625  0.1604   72.76 &amp;lt;2e-16 ***
-## Residuals   35 0.0772  0.0022                   
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ANOVA.threat = aov(model)
+
+summary(ANOVA.threat)
+##             Df Sum Sq Mean Sq F value Pr(&amp;gt;F)    
+## race         6 0.9821 0.16368     101 &amp;lt;2e-16 ***
+## Residuals   35 0.0567 0.00162                   
 ## ---
 ## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Display 2. &lt;em&gt;One-way ANOVA on proportion means by race&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 3. &lt;em&gt;Confidence intervals of the differencein mean levels of race. Via Tukey’s comparison of means.&lt;/em&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;##   Tukey multiple comparisons of means
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;TUKEY
+##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
 ##     factor levels have been ordered
 ## 
 ## Fit: aov(formula = model)
 ## 
 ## $race
-##                        diff          lwr        upr     p adj
-## Native-Other    0.003723252 -0.081017747 0.08846425 0.9999993
-## Asian-Other     0.005531169 -0.079209831 0.09027217 0.9999930
-## NR-Other        0.111960716  0.027219716 0.19670172 0.0036763
-## Hispanic-Other  0.138485474  0.053744474 0.22322647 0.0002168
-## Black-Other     0.232902840  0.148161841 0.31764384 0.0000000
-## White-Other     0.448172295  0.363431295 0.53291329 0.0000000
-## Asian-Native    0.001807917 -0.082933083 0.08654892 1.0000000
-## NR-Native       0.108237464  0.023496464 0.19297846 0.0053777
-## Hispanic-Native 0.134762222  0.050021222 0.21950322 0.0003255
-## Black-Native    0.229179588  0.144438588 0.31392059 0.0000000
-## White-Native    0.444449043  0.359708043 0.52919004 0.0000000
-## NR-Asian        0.106429547  0.021688547 0.19117055 0.0064548
-## Hispanic-Asian  0.132954305  0.048213305 0.21769530 0.0003962
-## Black-Asian     0.227371671  0.142630672 0.31211267 0.0000000
-## White-Asian     0.442641126  0.357900126 0.52738213 0.0000000
-## Hispanic-NR     0.026524758 -0.058216242 0.11126576 0.9554078
-## Black-NR        0.120942124  0.036201125 0.20568312 0.0014385
-## White-NR        0.336211579  0.251470579 0.42095258 0.0000000
-## Black-Hispanic  0.094417366  0.009676367 0.17915837 0.0208135
-## White-Hispanic  0.309686821  0.224945821 0.39442782 0.0000000
-## White-Black     0.215269454  0.130528455 0.30001045 0.0000000&lt;/code&gt;&lt;/pre&gt;
+##                        diff         lwr        upr     p adj
+## Native-Other    0.004360601 -0.06829564 0.07701684 0.9999957
+## Asian-Other     0.005361066 -0.06729517 0.07801731 0.9999855
+## NR-Other        0.104738149  0.03208191 0.17739439 0.0012643
+## Hispanic-Other  0.140373835  0.06771759 0.21303007 0.0000134
+## Black-Other     0.234853644  0.16219740 0.30750988 0.0000000
+## White-Other     0.452279174  0.37962293 0.52493541 0.0000000
+## Asian-Native    0.001000465 -0.07165578 0.07365670 1.0000000
+## NR-Native       0.100377548  0.02772131 0.17303379 0.0021620
+## Hispanic-Native 0.136013234  0.06335699 0.20866947 0.0000235
+## Black-Native    0.230493043  0.15783680 0.30314928 0.0000000
+## White-Native    0.447918573  0.37526233 0.52057481 0.0000000
+## NR-Asian        0.099377084  0.02672084 0.17203332 0.0024425
+## Hispanic-Asian  0.135012769  0.06235653 0.20766901 0.0000268
+## Black-Asian     0.229492578  0.15683634 0.30214882 0.0000000
+## White-Asian     0.446918108  0.37426187 0.51957435 0.0000000
+## Hispanic-NR     0.035635685 -0.03702055 0.10829193 0.7234857
+## Black-NR        0.130115495  0.05745925 0.20277173 0.0000503
+## White-NR        0.347541025  0.27488478 0.42019726 0.0000000
+## Black-Hispanic  0.094479809  0.02182357 0.16713605 0.0044064
+## White-Hispanic  0.311905340  0.23924910 0.38456158 0.0000000
+## White-Black     0.217425530  0.14476929 0.29008177 0.0000000&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Display 3. &lt;em&gt;Table from the visualization Figure 3. provides.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# I need to group the treatments that are not different each other together.
+label_df &amp;lt;- function(TUKEY, variable){
+ 
+     # Extract labels and factor levels from Tukey post-hoc 
+     levels &amp;lt;- TUKEY[[variable]][,4]
+     Tukey.labels &amp;lt;- data.frame(multcompLetters(levels)[&amp;#39;Letters&amp;#39;])
+     
+     #I need to put the labels in the same order as in the boxplot :
+     Tukey.labels$treatment=rownames(Tukey.labels)
+     Tukey.labels=Tukey.labels[order(Tukey.labels$treatment) , ]
+     return(Tukey.labels)
+     }
+ 
+# Apply the function on my dataset
+LABELS &amp;lt;- label_df(TUKEY , &amp;quot;race&amp;quot;)
+ 
+ 
+# A panel of colors to draw each group with the same color :
+my_colors &amp;lt;- c( 
+  rgb(143,199,74,maxColorValue = 255),
+  rgb(242,104,34,maxColorValue = 255), 
+  rgb(111,145,202,maxColorValue = 255),
+  rgb(151,105,102,maxColorValue = 255)
+  )
+ 
+# Draw the basic boxplot
+a &amp;lt;- boxplot(r.proportion$race.proportion ~ r.proportion$race, ylim=c(min(r.proportion$race.proportion) , 1.1*max(r.proportion$race.proportion)) , col=my_colors[as.numeric(LABELS[,1])] , ylab=&amp;quot;value&amp;quot; , main=&amp;quot;&amp;quot;)
+
+
+# I want to write the letter over each box. Over is how high I want to write it.
+over &amp;lt;- 0.1*max( a$stats[nrow(a$stats),] )
+ 
+#Add the labels
+text( c(1:nlevels(r.proportion$race)) , a$stats[nrow(a$stats),]+over , LABELS[,1]  , col  = my_colors[as.numeric(LABELS[,1])] )&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-28-threat-and-race.en_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 4. &lt;em&gt;Connecting letters boxplot. Different letters result in significant differences between means&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Display 1 is the output of a regression model in where we predict the proportion of the &lt;code&gt;attack&lt;/code&gt; threat level via race. Our R-squared adjusted=.9131 and the p-value=2.2e-16 meaning that the regression is an appropriate model to predict the proportion of individuals that pose a threat on an officer’s life by race.&lt;/p&gt;
@@ -148,8 +242,8 @@ Figure 4. &lt;em&gt;Connecting letters boxplot. Different letters result in sign
 &lt;span class=&#34;math display&#34;&gt;\[ + 0.1323(Hispanic) -0.002(Native) + 0.106(Not Recorded)\]&lt;/span&gt;
 &lt;span class=&#34;math display&#34;&gt;\[- 0.006(Other) + 0.443(White) \]&lt;/span&gt;
 91.31% of the variation in proportion of those who are threatening is explained through the differences in race, but are these differences significant?&lt;/p&gt;
-&lt;p&gt;A One-way ANOVA (Display 2) was done to test if there is at least one mean proportion from a single race is significantly different to another. The p-value&amp;lt;2e-16. We have enough statistical evidence to conclude at least one mean proportion of one race was significantly different than another race. A Tukey’s comparison post hoc to see what these differences are.&lt;/p&gt;
-&lt;p&gt;Figure 3 and Display 3 shows the output for the Tukey’s comparison of means. The output here can be hard to interpret, so a connecting letters plot was made in Figure 4. Significant differences are denoted as having different letters above each boxplot. &lt;code&gt;Asian&lt;/code&gt;, &lt;code&gt;Native&lt;/code&gt; and &lt;code&gt;Other&lt;/code&gt; all have the same letter, so their mean proportions are not significantly different from one another, though they are significantly different than the rest of the races. &lt;code&gt;Hispanic&lt;/code&gt; and the proportions of those who race is recorded as &lt;code&gt;Not Recorded&lt;/code&gt; have no significant differences to each other. &lt;code&gt;Black&lt;/code&gt; is significantly different than all other races. &lt;code&gt;White&lt;/code&gt; is also significanly different than all other races. “a” is the smallest mean proportion while “d” is the largest mean proportion.&lt;/p&gt;
+&lt;p&gt;A One-way ANOVA (Display 2) was done to test if there is at least one mean proportion from a single race is significantly different to another. The p-value&amp;lt;2e-16. We have strong statistical evidence to conclude at least one mean proportion of one race was significantly different than another race. A Tukey’s comparison post hoc to see what these differences are.&lt;/p&gt;
+&lt;p&gt;Fig. 3 and Display 3 shows the output for the Tukey’s comparison of means. The output here can be hard to interpret, so a connecting letters plot was made in Fig. 4. Significant differences are denoted as having different letters above each boxplot. &lt;code&gt;Asian&lt;/code&gt;, &lt;code&gt;Native&lt;/code&gt; and &lt;code&gt;Other&lt;/code&gt; all have the same letter, their mean proportions are not significantly different from one another, though they are significantly different than the rest of the races. &lt;code&gt;Hispanic&lt;/code&gt; and the proportions of those who race is recorded as &lt;code&gt;Not Recorded&lt;/code&gt; have no significant differences to each other. &lt;code&gt;Black&lt;/code&gt; is significantly different than all other races. &lt;code&gt;White&lt;/code&gt; is also significantly different than all other races. “a” is the smallest mean proportion while “d” is the largest mean proportion.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;inferential-findings-and-conclusion&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Inferential Findings and Conclusion&lt;/h1&gt;
@@ -181,16 +275,64 @@ Figure 4. &lt;em&gt;Connecting letters boxplot. Different letters result in sign
 
 &lt;div id=&#34;mental-illness&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Mental Illness&lt;/h1&gt;
-&lt;p&gt;There’s a statistic that people mental illness are 15 times more likely to be shot in a police encounter than the lay person. We can think about people like Shukri Ali Said who’s sister called 911 for aid when Said had a mental break. Police had found Said at an intersection with a knife and shot her 5 times, resulting in her death. We can think about Saheed Vassell. A man with a recorded mental illness, who also had a fatal police shooting. Vassell pointed a pipe at a police officer and was shot. We can think about the many people with mental and intellectual illnesses who had fatal police encounters and think about the possible different roots of the problem; the history of social stigma of treatment, to the processes of deinstitutionalization, to the defunding of existing community services like education, affordable housing, social and health services.&lt;/p&gt;
+&lt;p&gt;There’s a statistic that people mental illness are 15 times more likely to be shot in a police encounter than the lay person. We can think about people like Shukri Ali Said who’s sister called 911 for aid when Said had a mental break. Police had found Said at an intersection with a knife and shot her 5 times, resulting in her death. We can think about Saheed Vassell. A man with a recorded mental illness, who also had a fatal police shooting. Vassell pointed a pipe at a police officer and was shot. We can think about the many people with mental and intellectual illnesses who had fatal police encounters and think about the possible different roots of the problem: the history of social stigma of treatment, to the processes of de-institutionalization, to the defunding of existing community services like education, affordable housing, social and health services.&lt;/p&gt;
 &lt;p&gt;This post is going to explore the effects of mental illness and fatal police encounters.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;general-statistics&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;General Statistics&lt;/h1&gt;
-&lt;p&gt;You can find the dataset &lt;a href=&#34;https://github.com/washingtonpost/data-police-shootings&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You can find the data set &lt;a href=&#34;https://github.com/washingtonpost/data-police-shootings&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;
+shootings &amp;lt;- shootings %&amp;gt;% 
+  mutate(date = lubridate::ymd(date)) %&amp;gt;%   # Convert date to Lubridate
+  mutate(age = round(age)) %&amp;gt;%              # Make all ages integers
+  mutate(gender = as.factor(gender),        # Factorize
+         race = as.factor(race),
+         signs_of_mental_illness = as.factor(signs_of_mental_illness),
+         threat_level = as.factor(threat_level),
+         flee = as.factor(flee),
+         body_camera = as.factor(body_camera) )
+shootings &amp;lt;- shootings %&amp;gt;%
+  # Replace abbreviated race identifier with race
+  mutate(race = as.factor( ifelse(race==&amp;quot;W&amp;quot;,&amp;quot;White&amp;quot;,
+                  ifelse(race==&amp;quot;B&amp;quot;,&amp;quot;Black&amp;quot;,
+                  ifelse(race==&amp;quot;H&amp;quot;, &amp;quot;Hispanic&amp;quot;,
+                  ifelse(race==&amp;quot;A&amp;quot;, &amp;quot;Asian&amp;quot;,
+                  ifelse(race==&amp;quot;N&amp;quot;, &amp;quot;Native&amp;quot;,
+                  ifelse(race==&amp;quot;O&amp;quot;, &amp;quot;Other&amp;quot;, &amp;quot;Not Recorded&amp;quot;)))))))) %&amp;gt;%
+  mutate(year = year(date))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mental.illness &amp;lt;- shootings %&amp;gt;%
+  mutate(count = 1) %&amp;gt;%
+  aggregate(count ~  race + signs_of_mental_illness + year, data = ., sum) %&amp;gt;%
+  group_by(race, signs_of_mental_illness) %&amp;gt;%
+  summarise(mean = mean(count),
+            sd = sd(count),
+            min = min(count),
+            max = max(count)) 
+d1 &amp;lt;- mental.illness %&amp;gt;%
+  datatable()
+
+
+  &lt;/code&gt;&lt;/pre&gt;
 &lt;iframe seamless src=&#34;../d1.html&#34; width=&#34;100%&#34; height=&#34;500&#34;&gt;
 &lt;/iframe&gt;
 &lt;p&gt;Table 1
 &lt;em&gt;General descriptive statistics of fatal police shootings overall.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ag.year &amp;lt;- shootings %&amp;gt;%
+  mutate(count = 1) %&amp;gt;%
+  aggregate(count ~  race + signs_of_mental_illness + year, data = ., sum) %&amp;gt;%
+  group_by(race, signs_of_mental_illness, year) %&amp;gt;%
+  summarise(mean = mean(count))
+  
+d2 &amp;lt;- ag.year %&amp;gt;%
+  datatable()
+
+
+ag.year %&amp;gt;%
+  ggplot() +
+  geom_point(mapping = aes(x = race, y = mean), color = &amp;quot;gray&amp;quot;) +
+  geom_boxplot(mapping = aes(x = race, y = mean, fill = signs_of_mental_illness)) +
+  theme_bw() + ggtitle(&amp;quot;Average Shootings by Mental Illness&amp;quot;) + xlab(&amp;quot;Race&amp;quot;) + ylab(&amp;quot;Average&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-26-exploration-of-mental-illness-and-fatal-police-shootings.en_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 1
 &lt;em&gt;Boxplot of the mean fatal police encounters by race over the years.&lt;/em&gt;&lt;/p&gt;
@@ -198,23 +340,41 @@ Figure 1
 &lt;/iframe&gt;
 &lt;p&gt;Table 2
 &lt;em&gt;Mean of police shooting by race aggregated by year.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;In the two tables shown above, we get a good picture fatal police shootings by signs of mental illness, from the years 2015 to current day. White people make up more than 70% of the US population, so it makes sense that white people will make up the most of police shootings in just raw numbers. Look at Figure 1 for the example. If we do some data crunching, we wil see something interesting. Since 2015, even though white people make up more than 70% of the population, 45% of fatal shootings involve white victims, which is disproportionate. If we factor in mental illness, overall, almost 30% of the White victims of fatal police shootings showed signs of mental illness. Of Black victims: 14.3%, of Asian: 24.7%, of Hispanic: 17.2%, of Native American: 17.9%. Overall, 28.9% of fatal police shooting victims are recorded as showing signs of mental illness.&lt;/p&gt;
+&lt;p&gt;In the two tables shown above, we get a good picture of fatal police shootings by signs of mental illness, from the years 2015 to current day. White individuals make up more than 70% of the US population, so it makes sense that white people will make up the most of police shootings in just raw numbers. Look at Fig. 1 for the example. If we do some data crunching, we will see something interesting. Since 2015, even though White people make up more than 70% of the population, 45% of fatal shootings involve white victims, which is disproportionate. If we factor in mental illness, overall, almost 30% of the White victims of fatal police shootings showed signs of mental illness. Of Black victims: 14.3%, of Asian: 24.7%, of Hispanic: 17.2%, of Native American: 17.9%. Overall, 28.9% of fatal police shooting victims are recorded as showing signs of mental illness.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;de-escalation&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;De-escalation?&lt;/h1&gt;
-&lt;p&gt;If more than 1 in 4 victims of fatal police shootings involve mental illness, were there attempts to subdue these victims besides shooting? The dataset I’m working with involve whether a taser was used to de-escalate along with shooting via the variable &lt;code&gt;manner_of_death&lt;/code&gt;. There were only two categories, &lt;code&gt;shot&lt;/code&gt;, and, &lt;code&gt;shot and Tasered&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If more than 1 in 4 victims of fatal police shootings involve mental illness, were there attempts to subdue these victims besides shooting? The data set I’m working with involve whether a taser was used to de-escalate along with shooting via the variable &lt;code&gt;manner_of_death&lt;/code&gt;. There were only two categories, &lt;code&gt;shot&lt;/code&gt;, and, &lt;code&gt;shot and Tasered&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;shootings %&amp;gt;%
+  filter(signs_of_mental_illness == &amp;quot;True&amp;quot;) %&amp;gt;%
+  mutate(count = 1) %&amp;gt;%
+  aggregate(count ~ manner_of_death + year, data = ., sum) %&amp;gt;%
+  group_by(year) %&amp;gt;%
+  mutate(prop = count / sum(count)) %&amp;gt;%
+  ggplot() +
+  geom_line(mapping = aes(x = year, y = prop, color = manner_of_death)) +
+  theme_bw() + xlab(&amp;quot;Year&amp;quot;) + ylab(&amp;quot;Proportion&amp;quot;) + ggtitle(&amp;quot;Victims with Mental Illness&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-26-exploration-of-mental-illness-and-fatal-police-shootings.en_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 2.&lt;/p&gt;
-&lt;p&gt;In Figure 2, we see that with the fatal police shootings involving victims that showed signs of mental illness, less than 10% in every year have on record that the police tried to deploy a taser as a means of subduing the victim. we actually see a dip in 2018 and is slowly starting to rise again. We are only through a little more than half of the year, but this dataset is updated real time, so this graph will always be current.&lt;/p&gt;
+&lt;p&gt;In Fig. 2, we see that with the fatal police shootings involving victims that showed signs of mental illness, less than 10% in every year have on record that the police tried to deploy a taser as a means of subduing the victim. We actually see a dip in 2018 and is slowly starting to rise again. We are only through a little more than half of the year, but this data set is updated real time, so this graph will always be current.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;shootings %&amp;gt;%
+  filter(signs_of_mental_illness == &amp;quot;True&amp;quot;, manner_of_death == &amp;quot;shot and Tasered&amp;quot;) %&amp;gt;%
+  mutate(count = 1) %&amp;gt;%
+  aggregate(count ~ manner_of_death + year + race, data = ., sum) %&amp;gt;%
+  group_by(year) %&amp;gt;%
+  mutate(prop = count / sum(count)) %&amp;gt;%
+  ggplot() +
+  geom_smooth(mapping = aes(x = year, y = prop, color = race)) +
+  theme_bw() + xlab(&amp;quot;Year&amp;quot;) + ylab(&amp;quot;Proportion&amp;quot;) + ggtitle(&amp;quot;Victims with Mental Illness by Race&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-08-26-exploration-of-mental-illness-and-fatal-police-shootings.en_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;
 Figure 3
 &lt;em&gt;Taser deployed with victims showing signs of mental illness by race&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Figure 3 offers more insight. Overall, through all years, White victims that involve deployment of a taser: 47.8%, Native American: 1.11%, Hispanic: 17.8%, Black: 23.3%, Asian: 3.3%. We also see that the proportion of the use and deployment of a taser is more steadily increasing among black and white victims, those who make up the majority of victims of fatal police shootings. The percentage of hispanic victims look to be increasing to a small degree, but it may be attributed to the decrease in proportion of victims with race not being recorded.&lt;/p&gt;
+&lt;p&gt;Fig. 3 offers more insight. Overall, through all years, White victims that involve deployment of a taser: 47.8%, Native American: 1.11%, Hispanic: 17.8%, Black: 23.3%, Asian: 3.3%. We also see that the proportion of the use and deployment of a taser is more steadily increasing among black and white victims, those who make up the majority of victims of fatal police shootings. The percentage of Hispanic victims look to be increasing to a small degree, but it may be attributed to the decrease in proportion of victims with race not being recorded.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;conclusion&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Conclusion&lt;/h1&gt;
-&lt;p&gt;With almost 28.9% of all fatal police shootings involve the victims showing signs of mental illness. Of those instances, less than 10% every year are recorded that other means than just shooting a gun were used to subdue the victim. Figure 3 shows the ratio of those instances by race with white and black percentages increasing since 2018.&lt;/p&gt;
-&lt;p&gt;It still begs the question. If 28.9% of victims of fatal police shootings show signs of mental illness, why do 10% of those cases have other means besides shooting as a way to subdue these individuals? I do think it is important to note that certain states have banned the use of tasers. However, could these instances of mental breaks or threatening individuals with mental illnesses been avoided all together? Should we have invested more in social services and health services? These are questions that can’t be answered with this dataset alone.&lt;/p&gt;
+&lt;p&gt;With almost 28.9% of all fatal police shootings involve the victims showing signs of mental illness. Of those instances, less than 10% every year are recorded that other means than just shooting a gun were used to subdue the victim. Fig. 3 shows the ratio of those instances by race with White and Black percentages increasing since 2018.&lt;/p&gt;
+&lt;p&gt;If 28.9% of victims of fatal police shootings show signs of mental illness, why do 10% of those cases have other means besides shooting as a way to subdue these individuals? I do think it is important to note that certain states have banned the use of tasers. However, could these instances of mental breaks or threatening individuals with mental illnesses been avoided all together? Should we have invested more in social services and health services? These are questions that can’t be answered with this data set alone.&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>

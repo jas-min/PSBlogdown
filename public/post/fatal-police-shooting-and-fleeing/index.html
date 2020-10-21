@@ -31,7 +31,7 @@
     
   
   <meta name="description" content="This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.
-Type of FleeingFigure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using.">
+Type of FleeingFig. 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/fatal-police-shooting-and-fleeing/">
@@ -261,7 +261,7 @@ Type of FleeingFigure 1 below shows the proportion of those who do not flee, wh
   <meta property="og:url" content="/post/fatal-police-shooting-and-fleeing/">
   <meta property="og:title" content="Fleeing from Law Enforcement | Final Project - Police Shootings in the US">
   <meta property="og:description" content="This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.
-Type of FleeingFigure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
+Type of FleeingFig. 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
   
     
@@ -311,7 +311,7 @@ Type of FleeingFigure 1 below shows the proportion of those who do not flee, wh
       "url": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
     }
   },
-  "description": "This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.\nType of Fleeing\rFigure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using."
+  "description": "This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.\nType of Fleeing\rFig. 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using."
 }
 </script>
 
@@ -625,7 +625,7 @@ Type of FleeingFigure 1 below shows the proportion of those who do not flee, wh
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    2 min read
+    3 min read
   </span>
   
 
@@ -671,21 +671,51 @@ Type of FleeingFigure 1 below shows the proportion of those who do not flee, wh
 <p>This analysis is going to explore some of the different circumstances behind fatal police shootings in where the victim was fleeing.</p>
 <div id="type-of-fleeing" class="section level1">
 <h1>Type of Fleeing</h1>
-<p>Figure 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using.</p>
+<p>Fig. 1 below shows the proportion of those who do not flee, who do, and if they are fleeing, what method of fleeing that these individuals are using.</p>
+<pre class="r"><code>#proportion are killed while attempting to flee
+shootings %&gt;%
+  mutate(count = 1) %&gt;%
+  aggregate(count ~ flee + year, data = ., sum) %&gt;%
+  group_by(year) %&gt;%
+  mutate(proportion = count / sum(count)) %&gt;%
+  ggplot() +
+    geom_line(mapping = aes(x = year, y = proportion, color = flee)) +
+    ggtitle(&quot;Proportion of Fatal Police Shooting by Flee Method&quot;) + 
+    xlab(&quot;Year&quot;) + ylab(&quot;Proportion&quot;) + theme_bw()</code></pre>
 <p><img src="/post/2020-08-28-fatal-police-shooting-and-fleeing.en_files/figure-html/unnamed-chunk-1-1.png" width="672" />
 Figure 1.
 <em>The proportion of fatal police shootings by flee method over time.</em></p>
-<p>Figure 1 depicts the proportion of fleeing by car decreasing and every other method is seen increasing, in recent. The proportion of the incidents where fleeing method is not recorded is increasing every year, almost to the same degree that the “Not Fleeing” method is decreasing, this should be taken into account.</p>
+<p>Fig. 1 depicts the proportion of fleeing by car decreasing and every other method is seen increasing, in recent. The proportion of the incidents where fleeing method is not recorded is increasing every year, almost to the same degree that the <code>Not Fleeing</code> method is decreasing, this should be taken into account.</p>
 </div>
 <div id="unarmed" class="section level1">
 <h1>Unarmed</h1>
+<pre class="r"><code>shootings %&gt;%
+  mutate(count = 1) %&gt;%
+  filter(armed == &quot;unarmed&quot;) %&gt;%
+  aggregate(count ~ flee + year + armed, data = ., sum) %&gt;%
+  group_by(year) %&gt;%
+  mutate(proportion = count / sum(count)) %&gt;%
+  ggplot(mapping = aes(x=year, y = proportion, color = flee)) +
+  geom_line() +
+  ggtitle(&quot;Breakdown of Unarmed Victims&quot;) + xlab(&quot;Year&quot;) + ylab(&quot;Proportion&quot;) + theme_bw() </code></pre>
 <p><img src="/post/2020-08-28-fatal-police-shooting-and-fleeing.en_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 Figure 2. <em>Accounts for the proportion of method of fleeing of unarmed victims of fatal police shootings</em></p>
+<pre class="r"><code>unarmed &lt;- shootings %&gt;%
+  mutate(count = 1) %&gt;%
+  filter(armed == &quot;unarmed&quot;) %&gt;%
+  aggregate(count ~ flee + year + armed, data = ., sum) %&gt;%
+  group_by(year) %&gt;%
+  mutate(proportion = count / sum(count)) %&gt;%
+  select(-armed, -count) %&gt;%
+  datatable()
+
+
+htmlwidgets::saveWidget(unarmed, file = &quot;unarmed.html&quot;, selfcontained = TRUE)</code></pre>
 <iframe seamless src="../unarmed.html" width="100%" height="500">
 </iframe>
 <p>Table 1.
 <em>A table of the proportion of unarmed victims by fleeing method</em></p>
-<p>A question proposed is if the proportion of flee method by individuals unarmed reflected Figure 1. Figure 2 is that visualization. Of those indiduals who were ivolved with fatal police shootings, most are not fleeing much like overall fatal police shootings. We also see that a larger proportion of unarmed individuals are fleeing by foot than the overall population.</p>
+<p>A question proposed is if the proportion of flee method by individuals unarmed reflected Fig. 1? Fig. 2 is that visualization. Of those indikviduals who were involved with fatal police shootings, most are not fleeing much like overall fatal police shootings. We also see that a larger proportion of unarmed individuals are fleeing by foot than the overall population.</p>
 </div>
 <div id="influential-findings-and-comments" class="section level1">
 <h1>Influential Findings and Comments</h1>
